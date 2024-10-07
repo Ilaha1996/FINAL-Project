@@ -1,0 +1,11 @@
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\bin\Debug\net8.0\Web.AppointmentSystem.DATA.deps.json
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\bin\Debug\net8.0\Web.AppointmentSystem.DATA.dll
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\bin\Debug\net8.0\Web.AppointmentSystem.DATA.pdb
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\obj\Debug\net8.0\Web.AppointmentSystem.DATA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\obj\Debug\net8.0\Web.AppointmentSystem.DATA.AssemblyInfoInputs.cache
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\obj\Debug\net8.0\Web.AppointmentSystem.DATA.AssemblyInfo.cs
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\obj\Debug\net8.0\Web.AppointmentSystem.DATA.csproj.CoreCompileInputs.cache
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\obj\Debug\net8.0\Web.AppointmentSystem.DATA.dll
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\obj\Debug\net8.0\refint\Web.AppointmentSystem.DATA.dll
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\obj\Debug\net8.0\Web.AppointmentSystem.DATA.pdb
+C:\Users\USER\source\repos\FInal Project\Web.AppointmentSystem.DATA\obj\Debug\net8.0\ref\Web.AppointmentSystem.DATA.dll

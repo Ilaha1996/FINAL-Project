@@ -1,0 +1,12 @@
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\bin\Debug\net8.0\Web-AppointmentSystem.CORE.deps.json
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\bin\Debug\net8.0\Web-AppointmentSystem.CORE.dll
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\bin\Debug\net8.0\Web-AppointmentSystem.CORE.pdb
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\Web-AppointmentSystem.CORE.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\Web-AppointmentSystem.CORE.AssemblyInfoInputs.cache
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\Web-AppointmentSystem.CORE.AssemblyInfo.cs
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\Web-AppointmentSystem.CORE.csproj.CoreCompileInputs.cache
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\Web-AppointmentSystem.CORE.dll
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\refint\Web-AppointmentSystem.CORE.dll
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\Web-AppointmentSystem.CORE.pdb
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\ref\Web-AppointmentSystem.CORE.dll
+C:\Users\USER\source\repos\FInal Project\Web-AppSystem.CORE\obj\Debug\net8.0\Web-AppointmentSystem.CORE.csproj.AssemblyReference.cache

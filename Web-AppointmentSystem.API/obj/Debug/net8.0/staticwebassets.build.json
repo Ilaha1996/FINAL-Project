@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "JlSbi/iQJqBuWEofLXOwFEbn/aGH0tNopjwtNNW8yMk=",
+  "Source": "Web-AppointmentSystem.API",
+  "BasePath": "_content/Web-AppointmentSystem.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
