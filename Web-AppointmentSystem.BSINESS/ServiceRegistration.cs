@@ -1,0 +1,14 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using Web_AppointmentSystem.BUSINESS.Services.Implementations;
+using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
+
+namespace Web_AppointmentSystem.BUSINESS;
+
+public static class ServiceRegistration
+{
+    public static void AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<IServiceService, ServiceService>();
+       
+    }
+}

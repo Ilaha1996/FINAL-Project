@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\source\\repos\\FInal Project\\Web-AppSystem.CORE\\Web-AppointmentSystem.CORE.csproj": {}
+    "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppSystem.CORE\\Web-AppointmentSystem.CORE.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\source\\repos\\FInal Project\\Web-AppSystem.CORE\\Web-AppointmentSystem.CORE.csproj": {
+    "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppSystem.CORE\\Web-AppointmentSystem.CORE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\source\\repos\\FInal Project\\Web-AppSystem.CORE\\Web-AppointmentSystem.CORE.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppSystem.CORE\\Web-AppointmentSystem.CORE.csproj",
         "projectName": "Web-AppointmentSystem.CORE",
-        "projectPath": "C:\\Users\\USER\\source\\repos\\FInal Project\\Web-AppSystem.CORE\\Web-AppointmentSystem.CORE.csproj",
+        "projectPath": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppSystem.CORE\\Web-AppointmentSystem.CORE.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\source\\repos\\FInal Project\\Web-AppSystem.CORE\\obj\\",
+        "outputPath": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppSystem.CORE\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -47,6 +47,16 @@
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.8, )"
             },
