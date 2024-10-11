@@ -2,14 +2,11 @@ using Microsoft.AspNetCore.Identity;
 using Web.AppointmentSystem.DATA;
 using Web.AppointmentSystem.DATA.DAL;
 using Web_AppointmentSystem.CORE.Entities;
-//using Web.AppointmentSystem.DATA;
-//using Web_AppointmentSystem.BUSINESS;
-//using FluentValidation.AspNetCore;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 //using Microsoft.IdentityModel.Tokens;
-//using System.Text;
-//using MovieApp.Business.DTOs.MovieDTOs;
-//using MovieApp.Business.MappingProfiles;
+using System.Text;
+using Web_AppointmentSystem.BUSINESS.MappingProfiles;
+using FluentValidation.AspNetCore;
 
 
 namespace Web_AppointmentSystem.API
@@ -22,10 +19,11 @@ namespace Web_AppointmentSystem.API
 
             // Add services to the container.
 
-            //builder.Services.AddControllers().AddFluentValidation(opt =>
-            //{
-            //    opt.RegisterValidatorsFromAssembly(typeof(MovieCreateDtoValidator).Assembly);
-            //});
+            builder.Services.AddControllers().AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssembly(typeof(BUSINESS.DTOs.ServiceDTOs.ServiceCreateDtoValidator).Assembly);
+            });
+
 
             builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
@@ -40,10 +38,10 @@ namespace Web_AppointmentSystem.API
 
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
-            //builder.Services.AddAutoMapper(opt =>
-            //{
-            //    opt.AddProfile<MapProfile>();
-            //});
+            builder.Services.AddAutoMapper(opt =>
+            {
+                opt.AddProfile<MapProfile>();
+            });
 
             //builder.Services.AddAuthentication(opt =>
             //{

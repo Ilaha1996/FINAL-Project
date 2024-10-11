@@ -183,3 +183,5 @@ C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.API\bin\Debug\net8.0\W
 C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.API\bin\Debug\net8.0\Web.AppointmentSystem.DATA.pdb
 C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.API\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.API\bin\Debug\net8.0\FluentValidation.dll
+C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.API\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.API\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll

@@ -9,6 +9,8 @@ public static class ServiceRegistration
     public static void AddServices(this IServiceCollection services)
     {
         services.AddScoped<IServiceService, ServiceService>();
-       
+        services.AddScoped<IAppointmentService, AppointmentService>();
+        services.AddScoped<IReviewService, ReviewService>();
+        services.AddScoped<ITimeSlotService, TimeSlotService>();
     }
 }
