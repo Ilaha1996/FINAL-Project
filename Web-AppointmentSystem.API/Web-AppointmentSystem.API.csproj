@@ -21,8 +21,4 @@
     <ProjectReference Include="..\Web-AppointmentSystem.BSINESS\Web-AppointmentSystem.BUSINESS.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
