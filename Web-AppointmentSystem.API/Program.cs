@@ -25,7 +25,6 @@ namespace Web_AppointmentSystem.API
                 opt.RegisterValidatorsFromAssembly(typeof(BUSINESS.DTOs.ServiceDTOs.ServiceCreateDtoValidator).Assembly);
             });
 
-
             builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
                 opt.Password.RequiredUniqueChars = 2;

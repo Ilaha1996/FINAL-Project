@@ -23,7 +23,7 @@ namespace Web_AppointmentSystem.API.Controllers
         {
             return Ok(new ApiResponse<ICollection<AppointmentGetDto>>
             {
-                Data = await _appointmentService.GetByExpressionAsync(null, true),
+                Data = await _appointmentService.GetByExpressionAsync(null, true,"Service","TimeSlot","User"),
                 StatusCode = StatusCodes.Status200OK,
                 PropertyName = null,
                 ErrorMessage = string.Empty,

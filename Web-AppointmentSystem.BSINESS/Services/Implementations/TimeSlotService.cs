@@ -48,7 +48,7 @@ public class TimeSlotService : ITimeSlotService
 
     public async Task<ICollection<TimeSlotGetDto>> GetByExpressionAsync(Expression<Func<TimeSlot, bool>>? expression = null, bool asNoTracking = false, params string[] includes)
     {
-        var datas = await _timeSlotRepo.GetByExpressionAsync(expression, asNoTracking, includes).ToListAsync();
+        var datas = await _timeSlotRepo.GetByExpressionAsync(expression, asNoTracking, "Appointments").ToListAsync();
         if (datas == null) throw new EntityNotFoundException();
 
         ICollection<TimeSlotGetDto> dtos = _mapper.Map<ICollection<TimeSlotGetDto>>(datas);
@@ -68,7 +68,7 @@ public class TimeSlotService : ITimeSlotService
 
     public async Task<TimeSlotGetDto> GetSingleByExpressionAsync(Expression<Func<TimeSlot, bool>>? expression = null, bool asNoTracking = false, params string[] includes)
     {
-        var data = await _timeSlotRepo.GetByExpressionAsync(expression, asNoTracking, includes).FirstOrDefaultAsync();
+        var data = await _timeSlotRepo.GetByExpressionAsync(expression, asNoTracking, "Appointments").FirstOrDefaultAsync();
         if (data == null) throw new EntityNotFoundException();
 
         TimeSlotGetDto dto = _mapper.Map<TimeSlotGetDto>(data);

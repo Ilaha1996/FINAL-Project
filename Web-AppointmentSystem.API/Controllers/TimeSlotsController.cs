@@ -21,7 +21,7 @@ namespace Web_AppointmentSystem.API.Controllers
         {
             return Ok(new ApiResponse<ICollection<TimeSlotGetDto>>
             {
-                Data = await _timeSlotService.GetByExpressionAsync(null,true),
+                Data = await _timeSlotService.GetByExpressionAsync(null,true, "Appointments"),
                 StatusCode = StatusCodes.Status200OK,
                 PropertyName = null,
                 ErrorMessage = string.Empty,

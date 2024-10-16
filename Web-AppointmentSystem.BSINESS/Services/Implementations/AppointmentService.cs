@@ -50,6 +50,15 @@ public class AppointmentService : IAppointmentService
 
     public async Task<ICollection<AppointmentGetDto>> GetByExpressionAsync(Expression<Func<Appointment, bool>>? expression = null, bool asNoTracking = false, params string[] includes)
     {
+        IQueryable<Appointment> query = _appointmentRepo.GetByExpressionAsync(expression, asNoTracking);
+
+        if (includes != null)
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
         var datas = await _appointmentRepo.GetByExpressionAsync(expression, asNoTracking, includes).ToListAsync();
         if (datas == null) throw new EntityNotFoundException();
 

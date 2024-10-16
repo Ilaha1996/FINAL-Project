@@ -48,6 +48,16 @@ namespace Web_AppointmentSystem.BUSINESS.Services.Implementations
 
         public async Task<ICollection<ReviewGetDto>> GetByExpressionAsync(Expression<Func<Review, bool>>? expression = null, bool asNoTracking = false, params string[] includes)
         {
+            IQueryable<Review> query = _reviewRepo.GetByExpressionAsync(expression, asNoTracking);
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
             var datas = await _reviewRepo.GetByExpressionAsync(expression, asNoTracking, includes).ToListAsync();
             if (datas == null) throw new EntityNotFoundException();
 
