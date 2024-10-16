@@ -12,5 +12,6 @@ public static class ServiceRegistration
         services.AddScoped<IAppointmentService, AppointmentService>();
         services.AddScoped<IReviewService, ReviewService>();
         services.AddScoped<ITimeSlotService, TimeSlotService>();
+        services.AddScoped<IAuthService, AuthService>();
     }
 }

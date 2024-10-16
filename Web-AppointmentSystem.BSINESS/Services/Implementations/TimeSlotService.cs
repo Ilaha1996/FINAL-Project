@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Web.AppointmentSystem.DATA.Repostories;
 using Web_AppointmentSystem.BUSINESS.DTOs.ReviewDTOs;
+using Web_AppointmentSystem.BUSINESS.DTOs.ServiceDTOs;
 using Web_AppointmentSystem.BUSINESS.DTOs.TimeSlotDTOs;
 using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
 using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
@@ -20,7 +21,7 @@ public class TimeSlotService : ITimeSlotService
         _timeSlotRepo = timeSlotRepo;
         _mapper = mapper;
     }
-    public async Task CreateAsync(TimeSlotCreateDto dto)
+    public async Task<TimeSlotGetDto> CreateAsync(TimeSlotCreateDto dto)
     {
         TimeSlot timeSlot = _mapper.Map<TimeSlot>(dto);
         timeSlot.CreatedDate = DateTime.Now;
@@ -29,11 +30,15 @@ public class TimeSlotService : ITimeSlotService
 
         await _timeSlotRepo.CreateAsync(timeSlot);
         await _timeSlotRepo.CommitAsync();
+
+        TimeSlotGetDto getDto = _mapper.Map<TimeSlotGetDto>(timeSlot);
+
+        return getDto;
     }
 
     public async Task DeleteAsync(int id)
     {
-        if (id > 0) throw new InvalidIdException();
+        if (id < 0) throw new InvalidIdException();
         var data = await _timeSlotRepo.GetByIdAsync(id);
         if (data == null) throw new EntityNotFoundException();
 

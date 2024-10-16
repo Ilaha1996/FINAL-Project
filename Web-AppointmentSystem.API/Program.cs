@@ -2,11 +2,12 @@ using Microsoft.AspNetCore.Identity;
 using Web.AppointmentSystem.DATA;
 using Web.AppointmentSystem.DATA.DAL;
 using Web_AppointmentSystem.CORE.Entities;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
-//using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Web_AppointmentSystem.BUSINESS.MappingProfiles;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Web_AppointmentSystem.BUSINESS;
 
 
 namespace Web_AppointmentSystem.API
@@ -43,29 +44,29 @@ namespace Web_AppointmentSystem.API
                 opt.AddProfile<MapProfile>();
             });
 
-            //builder.Services.AddAuthentication(opt =>
-            //{
-            //    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(opt =>
-            //{
-            //    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-            //    {
-            //        ValidateAudience = true,
-            //        ValidateIssuer = true,
-            //        ValidIssuer = builder.Configuration.GetSection("JWT:issuer").Value,
-            //        ValidAudience = builder.Configuration.GetSection("JWT:audience").Value,
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JWT:secretKey").Value)),
-            //        ValidateLifetime = true,
-            //        ClockSkew = TimeSpan.Zero
-            //    };
-            //});
+            builder.Services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration.GetSection("JWT:issuer").Value,
+                    ValidAudience = builder.Configuration.GetSection("JWT:audience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JWT:secretKey").Value)),
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddRepostories(builder.Configuration.GetConnectionString("default"));
-            //builder.Services.AddServices();
+            builder.Services.AddServices();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -78,11 +79,10 @@ namespace Web_AppointmentSystem.API
                 app.UseSwaggerUI();
             }
 
-            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 

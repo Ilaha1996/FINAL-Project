@@ -2,7 +2,7 @@
 
 namespace Web_AppointmentSystem.BUSINESS.DTOs.ReviewDTOs;
 
-public record ReviewCreateDto(int Id, string? Comment, int Rating, bool IsDeleted, int AppointmentId);
+public record ReviewCreateDto(string? Comment, int Rating, bool IsDeleted, int AppointmentId);
 
 public class ReviewCreateDtoValidator : AbstractValidator<ReviewCreateDto>
 {

@@ -6,7 +6,7 @@ namespace Web_AppointmentSystem.BUSINESS.Services.Interfaces;
 
 public interface IReviewService
 {
-    Task CreateAsync(ReviewCreateDto dto);
+    Task<ReviewGetDto> CreateAsync(ReviewCreateDto dto);
     Task DeleteAsync(int id);
     Task UpdateAsync(int? id, ReviewUpdateDto dto);
     Task<ReviewGetDto> GetByIdAsync(int id);

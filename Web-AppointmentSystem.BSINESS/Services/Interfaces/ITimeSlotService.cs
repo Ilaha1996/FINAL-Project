@@ -6,7 +6,7 @@ namespace Web_AppointmentSystem.BUSINESS.Services.Interfaces
 {
     public interface ITimeSlotService
     {
-        Task CreateAsync(TimeSlotCreateDto dto);
+        Task<TimeSlotGetDto> CreateAsync(TimeSlotCreateDto dto);
         Task DeleteAsync(int id);
         Task UpdateAsync(int? id, TimeSlotUpdateDto dto);
         Task<TimeSlotGetDto> GetByIdAsync(int id);

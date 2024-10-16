@@ -18,7 +18,7 @@ public class ServiceService : IServiceService
         _serviceRepo = serviceRepo;
         _mapper = mapper;
     }
-    public async Task CreateAsync(ServiceCreateDto dto)
+    public async Task<ServiceGetDto> CreateAsync(ServiceCreateDto dto)
     {
         Service service = _mapper.Map<Service>(dto);
         service.CreatedDate = DateTime.Now;
@@ -27,11 +27,15 @@ public class ServiceService : IServiceService
 
         await _serviceRepo.CreateAsync(service);
         await _serviceRepo.CommitAsync();
+
+        ServiceGetDto getDto = _mapper.Map<ServiceGetDto>(service);
+
+        return getDto;
     }
 
     public async Task DeleteAsync(int id)
     {
-        if (id > 0) throw new InvalidIdException();
+        if (id < 0) throw new InvalidIdException();
         var data = await _serviceRepo.GetByIdAsync(id);
         if (data == null) throw new EntityNotFoundException();
 

@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Web.AppointmentSystem.DATA.Repostories;
 using Web_AppointmentSystem.BUSINESS.DTOs.AppointmentDTOs;
 using Web_AppointmentSystem.BUSINESS.DTOs.ReviewDTOs;
+using Web_AppointmentSystem.BUSINESS.DTOs.ServiceDTOs;
 using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
 using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
 using Web_AppointmentSystem.CORE.Entities;
@@ -20,7 +21,7 @@ namespace Web_AppointmentSystem.BUSINESS.Services.Implementations
             _reviewRepo = reviewRepo;
             _mapper = mapper;
         }
-        public async Task CreateAsync(ReviewCreateDto dto)
+        public async Task<ReviewGetDto> CreateAsync(ReviewCreateDto dto)
         {
             Review review = _mapper.Map<Review>(dto);
             review.CreatedDate = DateTime.Now;
@@ -29,11 +30,15 @@ namespace Web_AppointmentSystem.BUSINESS.Services.Implementations
 
             await _reviewRepo.CreateAsync(review);
             await _reviewRepo.CommitAsync();
+
+            ReviewGetDto getDto = _mapper.Map<ReviewGetDto>(review);
+
+            return getDto;
         }
 
         public async Task DeleteAsync(int id)
         {
-            if (id > 0) throw new InvalidIdException();
+            if (id < 0) throw new InvalidIdException();
             var data = await _reviewRepo.GetByIdAsync(id);
             if (data == null) throw new EntityNotFoundException();
 

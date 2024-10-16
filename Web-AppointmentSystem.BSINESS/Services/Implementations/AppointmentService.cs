@@ -40,7 +40,7 @@ public class AppointmentService : IAppointmentService
 
     public async Task DeleteAsync(int id)
     {
-        if (id > 0) throw new InvalidIdException();
+        if (id < 0) throw new InvalidIdException();
         var data = await _appointmentRepo.GetByIdAsync(id);
         if (data == null) throw new EntityNotFoundException();
 

@@ -6,7 +6,7 @@ namespace Web_AppointmentSystem.BUSINESS.Services.Interfaces;
 
 public interface IServiceService
 {
-    Task CreateAsync(ServiceCreateDto dto);
+    Task<ServiceGetDto> CreateAsync(ServiceCreateDto dto);
     Task DeleteAsync(int id);
     Task UpdateAsync(int? id, ServiceUpdateDto dto);
     Task<ServiceGetDto> GetByIdAsync(int id);

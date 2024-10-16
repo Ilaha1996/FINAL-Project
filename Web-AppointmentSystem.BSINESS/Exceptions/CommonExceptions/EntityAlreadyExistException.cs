@@ -1,5 +1,4 @@
 ﻿namespace Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
-
 internal class EntityAlreadyExistException: Exception
 {
     public int StatusCode { get; set; }
