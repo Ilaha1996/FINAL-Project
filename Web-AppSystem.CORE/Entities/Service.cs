@@ -5,7 +5,7 @@ public class Service:BaseEntity
     public string Name { get; set; }
     public string? Description { get; set; }
     public decimal Price { get; set; }
-    public TimeSpan Duration { get; set; }
+    public int Duration { get; set; }
 
     // Navigation properties
     public ICollection<Appointment>? Appointments { get; set; }

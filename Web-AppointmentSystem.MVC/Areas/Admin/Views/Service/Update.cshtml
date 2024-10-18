@@ -1,0 +1,34 @@
+﻿@using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.ServiceVM
+@model ServiceUpdateVM
+
+<div class="container-fluid">
+    <h1>Update</h1>
+    <form method="post">
+        <div class="row">
+            <div class="mb-3 col-md-2">
+                <label class="form-label">Name</label>
+                <input asp-for="Name" class="form-control" aria-describedby="nameHelp">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-md-4">
+                <label class="form-label">Description</label>
+                <input asp-for="Description" class="form-control" aria-describedby="descHelp">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-md-2">
+                <label class="form-label">Price</label>
+                <input asp-for="Price" class="form-control" aria-describedby="priceHelp">
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-md-2">
+                <label class="form-label">Duration (minutes)</label>
+                <input type="number" asp-for="Duration" class="form-control" min="0" >
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a asp-action="Index" class="btn btn-light">Cancel</a>
+    </form>
+</div>
+

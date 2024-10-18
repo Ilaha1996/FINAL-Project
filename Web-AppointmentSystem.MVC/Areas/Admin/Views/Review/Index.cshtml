@@ -1,0 +1,33 @@
+﻿@using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.ReviewVM
+@model List<ReviewGetVM>
+@{
+    int counter = 0;
+}
+
+<div style="display:flex; justify-content:space-between; align-items:center; padding: 0 530px 0 20px">
+    <h1>Services</h1>
+    <a asp-action="Create" class="btn btn-success">Create</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Comment</th>
+            <th scope="col">Rating</th>
+            <th scope="col">AppointmentId</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            counter++;
+            <tr>
+                <th scope="row">@counter</th>
+                <td>@book.Comment</td>
+                <td>@book.Rating</td>
+                <td>@book.AppointmentId</td>
+            </tr>
+        }
+    </tbody>
+</table>

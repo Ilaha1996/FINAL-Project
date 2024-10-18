@@ -357,8 +357,8 @@ namespace Web.AppointmentSystem.DATA.Migrations
                         .HasMaxLength(550)
                         .HasColumnType("nvarchar(550)");
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

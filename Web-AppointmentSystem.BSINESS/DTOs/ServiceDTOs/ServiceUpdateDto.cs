@@ -2,7 +2,7 @@
 
 namespace Web_AppointmentSystem.BUSINESS.DTOs.ServiceDTOs;
 
-public record ServiceUpdateDto(string Name, string Description, bool IsDeleted, decimal Price, TimeSpan Duration);
+public record ServiceUpdateDto(string Name, string Description, bool IsDeleted, decimal Price, int Duration);
 
 public class ServiceUpdateDtoValidator : AbstractValidator<ServiceUpdateDto>
 {
@@ -24,7 +24,7 @@ public class ServiceUpdateDtoValidator : AbstractValidator<ServiceUpdateDto>
             .ScalePrecision(2, 18).WithMessage("Price must have at most 18 digits and 2 decimal places");
 
         RuleFor(x => x.Duration)
-            .GreaterThan(TimeSpan.Zero).WithMessage("Duration must be greater than 0")
-            .Must(duration => duration.TotalMinutes <= 120).WithMessage("Duration must not exceed 2 hours (120 minutes)");
+            .GreaterThan(0).WithMessage("Duration must be greater than 0 minutes")
+            .LessThanOrEqualTo(120).WithMessage("Duration must not exceed 120 minutes (2 hours)");
     }
 }

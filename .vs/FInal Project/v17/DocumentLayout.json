@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\USER\\Desktop\\FInal Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7D6FE88C-54CC-49F5-9AB9-A719391CDEBB}|Web-AppointmentSystem.API\\Web-AppointmentSystem.API.csproj|c:\\users\\user\\desktop\\final project\\web-appointmentsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7D6FE88C-54CC-49F5-9AB9-A719391CDEBB}|Web-AppointmentSystem.API\\Web-AppointmentSystem.API.csproj|solutionrelative:web-appointmentsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|c:\\users\\user\\desktop\\final project\\web-appointmentsystem.mvc\\areas\\admin\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|solutionrelative:web-appointmentsystem.mvc\\areas\\admin\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|c:\\users\\user\\desktop\\final project\\web-appointmentsystem.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|solutionrelative:web-appointmentsystem.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,20 +23,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.API\\Program.cs",
-              "RelativeDocumentMoniker": "Web-AppointmentSystem.API\\Program.cs",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.API\\Program.cs",
-              "RelativeToolTip": "Web-AppointmentSystem.API\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACIAAAAwAAAA",
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Areas\\Admin\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Web-AppointmentSystem.MVC\\Areas\\Admin\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Areas\\Admin\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Web-AppointmentSystem.MVC\\Areas\\Admin\\Controllers\\AuthController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-08T13:00:50.358Z",
+              "WhenOpened": "2024-10-18T10:21:29.327Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Program.cs",
+              "RelativeDocumentMoniker": "Web-AppointmentSystem.MVC\\Program.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Program.cs",
+              "RelativeToolTip": "Web-AppointmentSystem.MVC\\Program.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAAwDEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-17T18:24:27.119Z"
             }
           ]
         }
