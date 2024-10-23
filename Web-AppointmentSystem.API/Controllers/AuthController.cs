@@ -88,3 +88,48 @@ namespace Web_AppointmentSystem.API.Controllers
         }
     }
 }
+
+
+//[HttpGet]
+//public async Task<IActionResult> CreateRole()
+//{
+//    IdentityRole role2 = new IdentityRole("Admin");
+//    IdentityRole role3 = new IdentityRole("Member");
+
+//    await _roleManager.CreateAsync(role2);
+//    await _roleManager.CreateAsync(role3);
+
+//    return Ok();
+//}
+
+//[HttpGet]
+//public async Task<IActionResult> CreateAdmin()
+//{
+//    AppUser appUser = new AppUser()
+//    {
+//        UserName = "Ilaha",
+//        Email = "ilahahasanova@yahoo.com",
+//        Fullname = "Ilaha Hasanova"
+//    };
+
+//    IdentityResult result = await _userManager.CreateAsync(appUser, "Salam123!");
+
+//    if (result.Succeeded)
+//    {
+//        return Ok("Admin user created successfully.");
+//    }
+//    else
+//    {
+//        return BadRequest(result.Errors);
+//    }
+//}
+
+//[HttpGet]
+//public async Task<IActionResult> AddRole()
+//{
+//    AppUser appUser = await _userManager.FindByNameAsync("Aghalar");
+
+//    await _userManager.AddToRoleAsync(appUser, "Member");
+//    return Ok();
+
+//}

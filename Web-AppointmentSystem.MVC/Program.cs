@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 namespace Web_AppointmentSystem.MVC
 {
     public class Program
@@ -8,9 +10,27 @@ namespace Web_AppointmentSystem.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddSession(opt =>
+            builder.Services.RegisterService();
+            builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // Configure Cookie Authentication
+            //builder.Services.AddAuthentication("MyCookieAuth")
+            //.AddCookie("MyCookieAuth", options =>
+            //{
+            //   options.LoginPath = "/Admin/Auth/Login";   // Login URL
+            //   options.AccessDeniedPath = "/Home/Error";  // Error page for unauthorized access
+            //});
+
+            // Configure Authorization Policies
+            builder.Services.AddAuthorization(options =>
             {
-                opt.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+            });
+
+            // Configure Session
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
             });
 
             var app = builder.Build();
@@ -26,18 +46,21 @@ namespace Web_AppointmentSystem.MVC
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // Session Middleware
             app.UseSession();
 
+            // Authentication and Authorization Middleware
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Map area routes first
+            // Map Area Routes
             app.MapControllerRoute(
                 name: "areas",
                 pattern: "{area:exists}/{controller=Auth}/{action=Login}/{id?}"
             );
 
-            // Map default route
+            // Map Default Route
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}"

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.AppointmentVM;
@@ -6,6 +7,7 @@ using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.AppointmentVM;
 namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    
     public class AppointmentController : Controller
     {
         private readonly RestClient _restClient;
@@ -13,6 +15,7 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
         {
             _restClient = new RestClient("https://localhost:7197/api");
         }
+
         public async Task<IActionResult> Index()
         {
             var request = new RestRequest("appointments", Method.Get);

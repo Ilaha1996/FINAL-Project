@@ -10,12 +10,11 @@
   <ItemGroup>
     <Folder Include="ViewComponents\" />
     <Folder Include="Utilities\" />
-    <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\Assets\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 

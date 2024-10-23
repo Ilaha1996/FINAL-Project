@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.ReviewVM;

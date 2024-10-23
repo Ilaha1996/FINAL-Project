@@ -1,16 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Web_AppointmentSystem.MVC.Areas.Admin.ViewModels;
-public record LoginVM
+﻿namespace Web_AppointmentSystem.MVC.Areas.Admin.ViewModels
 {
-    [Required]
-    public string Username { get; init; }
-
-    [Required]
-    [DataType(DataType.Password)]
-    public string Password { get; init; }
-
-    public bool RememberMe { get; init; }
+    public record LoginVM
+    {
+        public string Username { get; init; }
+        public string Password { get; init; }
+        public bool RememberMe { get; init; }
+    }
 }
+
 
 

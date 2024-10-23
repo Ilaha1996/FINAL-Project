@@ -32,3 +32,4 @@ C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.MVC\obj\Debug\net8.0\r
 C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.MVC\obj\Debug\net8.0\Web-AppointmentSystem.MVC.csproj.AssemblyReference.cache
 C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.MVC\bin\Debug\net8.0\RestSharp.dll
 C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.MVC\obj\Debug\net8.0\Web-Appo.BB08B5A5.Up2Date
+C:\Users\USER\Desktop\FInal Project\Web-AppointmentSystem.MVC\bin\Debug\net8.0\Newtonsoft.Json.dll
