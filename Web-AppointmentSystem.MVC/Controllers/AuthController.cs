@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web_AppointmentSystem.MVC.Services.ExternalServices.Interfaces;
 using Web_AppointmentSystem.MVC.Services.Interfaces;
 using Web_AppointmentSystem.MVC.ViewModels.AuthVM;
 
@@ -7,10 +8,12 @@ namespace Web_AppointmentSystem.MVC.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly IEmailService _emailService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IEmailService emailService)
         {
             _authService = authService;
+            _emailService = emailService;
         }
 
         public IActionResult Login()
@@ -57,7 +60,11 @@ namespace Web_AppointmentSystem.MVC.Controllers
             try
             {
                 await _authService.Register(vm);
-                // Redirect to login after successful registration
+
+                //Teqdimatda ach bunu!!Email servis islemelidi!
+                //string bodytemp = $"Dear {vm.Username},Thank you for registering.";
+                //await _emailService.SendMailAsync(vm.Email, $"🎉 Welcome, {vm.Username} – Your Registration was Successful!", bodytemp);
+               
                 return RedirectToAction("Login");
             }
             catch (Exception ex)

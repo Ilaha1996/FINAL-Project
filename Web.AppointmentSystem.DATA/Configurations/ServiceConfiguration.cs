@@ -22,10 +22,5 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
 
         builder.Property(x => x.Duration)
                .IsRequired();
-
-        builder.HasMany(x => x.FavoriteServices)
-           .WithOne(fs => fs.Service)
-           .HasForeignKey(fs => fs.ServiceId);
-
     }
 }

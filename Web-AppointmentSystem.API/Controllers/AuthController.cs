@@ -12,8 +12,6 @@ namespace Web_AppointmentSystem.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-
         private readonly IAuthService _authService;
         public AuthController(IAuthService authService)
         {
@@ -86,9 +84,41 @@ namespace Web_AppointmentSystem.API.Controllers
                 });
             }
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailDto dto)
+        {
+            try
+            {
+                await _authService.ConfirmEmail(dto);
+                return Ok(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Data = null,
+                    ErrorMessage = null
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+        }
     }
 }
-
 
 //[HttpGet]
 //public async Task<IActionResult> CreateRole()

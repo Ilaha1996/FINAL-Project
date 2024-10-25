@@ -10,12 +10,16 @@
   <ItemGroup>
     <Folder Include="ViewComponents\" />
     <Folder Include="Utilities\" />
-    <Folder Include="wwwroot\Assets\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Web-AppointmentSystem.BSINESS\Web-AppointmentSystem.BUSINESS.csproj" />
   </ItemGroup>
 
 </Project>

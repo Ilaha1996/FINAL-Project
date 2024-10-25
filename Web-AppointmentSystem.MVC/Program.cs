@@ -12,21 +12,7 @@ namespace Web_AppointmentSystem.MVC
             builder.Services.AddControllersWithViews();
             builder.Services.RegisterService();
             builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            // Configure Cookie Authentication
-            //builder.Services.AddAuthentication("MyCookieAuth")
-            //.AddCookie("MyCookieAuth", options =>
-            //{
-            //   options.LoginPath = "/Admin/Auth/Login";   // Login URL
-            //   options.AccessDeniedPath = "/Home/Error";  // Error page for unauthorized access
-            //});
-
-            // Configure Authorization Policies
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-            });
-
+     
             // Configure Session
             builder.Services.AddSession(options =>
             {

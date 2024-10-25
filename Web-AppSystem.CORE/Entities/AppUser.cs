@@ -4,8 +4,8 @@ namespace Web_AppointmentSystem.CORE.Entities;
 public class AppUser : IdentityUser
 {
     public string Fullname { get; set; }
+    //public IFormFile ImageUrl { get; set; }
 
     // Navigation properties
     public ICollection<Appointment>? Appointments { get; set; }
-    public ICollection<FavoriteService>? FavoriteServices { get; set; }
 }

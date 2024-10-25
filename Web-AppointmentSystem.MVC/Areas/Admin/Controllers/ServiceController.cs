@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.ServiceVM;
+using Web_AppointmentSystem.MVC.Services.Implementations;
 
 namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [ServiceFilter(typeof(TokenFilter))]
     public class ServiceController : Controller
     {
         private readonly RestClient _restClient;

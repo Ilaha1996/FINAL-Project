@@ -94,4 +94,22 @@ public class AuthService : IAuthService
         var users = _userManager.Users.ToList();
         return users;
     }
+    public async Task ConfirmEmail(ConfirmEmailDto dto)
+    {
+        AppUser appUser = null;
+        appUser = await _userManager.FindByEmailAsync(dto.Email);
+
+        if (appUser == null)
+        {
+            throw new UnauthorizedAccessException("Invalid credentials: User not found.");
+        }
+
+        var result = await _userManager.ConfirmEmailAsync(appUser, dto.Token);
+
+        if (!result.Succeeded)
+        {
+            throw new Exception("Email confirmation failed.");
+        }
+
+    }  
 }

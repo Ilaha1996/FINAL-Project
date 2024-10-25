@@ -9,5 +9,4 @@ public class Service:BaseEntity
 
     // Navigation properties
     public ICollection<Appointment>? Appointments { get; set; }
-    public ICollection<FavoriteService>? FavoriteServices { get; set; }
 }

@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.AppointmentVM;
+using Web_AppointmentSystem.MVC.Services.Implementations;
 
 namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    
+    [ServiceFilter(typeof(TokenFilter))]
     public class AppointmentController : Controller
     {
         private readonly RestClient _restClient;
@@ -30,4 +30,5 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
             return View(response.Data.Data);
         }
     }
+  
 }
