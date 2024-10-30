@@ -2,6 +2,7 @@
 using Web_AppointmentSystem.BUSINESS.DTOs.AppointmentDTOs;
 using Web_AppointmentSystem.BUSINESS.DTOs.ReviewDTOs;
 using Web_AppointmentSystem.BUSINESS.DTOs.ServiceDTOs;
+using Web_AppointmentSystem.BUSINESS.DTOs.ServiceImageDTOs;
 using Web_AppointmentSystem.BUSINESS.DTOs.TimeSlotDTOs;
 using Web_AppointmentSystem.CORE.Entities;
 
@@ -26,6 +27,8 @@ public class MapProfile : Profile
         CreateMap<TimeSlotGetDto, TimeSlot>().ReverseMap();
         CreateMap<TimeSlotCreateDto, TimeSlot>().ReverseMap();
         CreateMap<TimeSlotUpdateDto, TimeSlot>().ReverseMap();
+
+        CreateMap<ServiceImage, ServiceImageGetDto>().ReverseMap();
 
     }
 }

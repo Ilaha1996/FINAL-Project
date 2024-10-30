@@ -47,6 +47,14 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back, Dear User!</h1>
                                     </div>
+
+                                    <!-- TempData Success Message -->
+                                    @if (TempData["SuccessMessage"] != null)
+                                    {
+                                        <div class="alert alert-success">
+                                            @TempData["SuccessMessage"]
+                                        </div>
+                                    }
                                     <form method="post" class="user">
                                         <div class="form-group">
                                             <input asp-for="Username" class="form-control form-control-user"

@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Web_AppointmentSystem.CORE.Entities;
 
 namespace Web_AppointmentSystem.MVC
 {
@@ -18,6 +21,7 @@ namespace Web_AppointmentSystem.MVC
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
             });
+
 
             var app = builder.Build();
 

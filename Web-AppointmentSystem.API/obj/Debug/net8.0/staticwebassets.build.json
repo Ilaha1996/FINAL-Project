@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "JlSbi/iQJqBuWEofLXOwFEbn/aGH0tNopjwtNNW8yMk=",
+  "Hash": "dBgzuSGHhXYuJmJc963fkMlROo7nruhrpxLFiQ1qO1I=",
   "Source": "Web-AppointmentSystem.API",
   "BasePath": "_content/Web-AppointmentSystem.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "Web-AppointmentSystem.API\\wwwroot",
+      "Source": "Web-AppointmentSystem.API",
+      "ContentRoot": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.API\\wwwroot\\",
+      "BasePath": "_content/Web-AppointmentSystem.API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.API\\wwwroot\\uploads\\1-shiny-medium-natural-curly-hairstyle.jpg",
+      "SourceId": "Web-AppointmentSystem.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.API\\wwwroot\\",
+      "BasePath": "_content/Web-AppointmentSystem.API",
+      "RelativePath": "uploads/1-shiny-medium-natural-curly-hairstyle.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\1-shiny-medium-natural-curly-hairstyle.jpg"
+    }
+  ]
 }

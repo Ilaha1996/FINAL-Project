@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 namespace Web_AppointmentSystem.BUSINESS.DTOs.ServiceDTOs;
 
-public record ServiceCreateDto(string Name, string Description, bool IsDeleted, decimal Price, int Duration);
+public record ServiceCreateDto(string Name, string Description, bool IsDeleted, decimal Price, int Duration, IFormFile Image);
 
 public class ServiceCreateDtoValidator : AbstractValidator<ServiceCreateDto>
 {
@@ -26,6 +27,12 @@ public class ServiceCreateDtoValidator : AbstractValidator<ServiceCreateDto>
         RuleFor(x => x.Duration)
             .GreaterThan(0).WithMessage("Duration must be greater than 0 minutes")
             .LessThanOrEqualTo(120).WithMessage("Duration must not exceed 120 minutes (2 hours)");
+
+        RuleFor(x => x.Image)
+        .Must(x => x.ContentType == "image/png" || x.ContentType == "image/jpeg")
+        .WithMessage("Image content type must be png or jpeg")
+        .Must(x => x.Length < 2 * 1024 * 1024)
+        .WithMessage("Image length must be less than 2 MB");
     }
 }
 

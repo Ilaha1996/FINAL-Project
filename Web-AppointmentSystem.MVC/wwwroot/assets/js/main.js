@@ -839,11 +839,7 @@
     fade: true,
     asNavFor: '#testis_4_2, #testis_4_1'
   });
-
-
-
-
-
+  
   /*---------- 20. Date & Time Picker ----------*/
   // Time And Date Picker
   $('.dateTime-pick').datetimepicker({

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Web_AppointmentSystem.API.ApiResponse;
 using Web_AppointmentSystem.BUSINESS.DTOs.TokenDTOs;
 using Web_AppointmentSystem.BUSINESS.DTOs.UserDTOs;
 using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
-using Web_AppointmentSystem.CORE.Entities;
+using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
 
 namespace Web_AppointmentSystem.API.Controllers
 {
@@ -27,11 +26,20 @@ namespace Web_AppointmentSystem.API.Controllers
                 return Ok(new ApiResponse<object>
                 {
                     StatusCode = StatusCodes.Status200OK,
-                    Data = null,
+                    Data = "Registration successful. Please check your email to confirm.",
                     ErrorMessage = null
                 });
             }
-            catch (NullReferenceException ex)
+            catch (EntityAlreadyExistException ex)
+            {
+                return Conflict(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status409Conflict,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (UserRegistrationException ex)
             {
                 return BadRequest(new ApiResponse<object>
                 {
@@ -42,10 +50,10 @@ namespace Web_AppointmentSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ApiResponse<object>
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<object>
                 {
-                    StatusCode = StatusCodes.Status400BadRequest,
-                    ErrorMessage = ex.Message,
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    ErrorMessage = "An unexpected error occurred.",
                     Data = null
                 });
             }
@@ -85,38 +93,6 @@ namespace Web_AppointmentSystem.API.Controllers
             }
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> ConfirmEmail(ConfirmEmailDto dto)
-        {
-            try
-            {
-                await _authService.ConfirmEmail(dto);
-                return Ok(new ApiResponse<object>
-                {
-                    StatusCode = StatusCodes.Status200OK,
-                    Data = null,
-                    ErrorMessage = null
-                });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new ApiResponse<object>
-                {
-                    StatusCode = StatusCodes.Status401Unauthorized,
-                    ErrorMessage = ex.Message,
-                    Data = null
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse<object>
-                {
-                    StatusCode = StatusCodes.Status400BadRequest,
-                    ErrorMessage = ex.Message,
-                    Data = null
-                });
-            }
-        }
     }
 }
 

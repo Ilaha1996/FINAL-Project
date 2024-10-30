@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RestSharp;
+﻿using RestSharp;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using Web_AppointmentSystem.MVC.Services.Interfaces;
 using Web_AppointmentSystem.MVC.ViewModels.AuthVM;
@@ -19,13 +18,28 @@ public class AuthService : IAuthService
         _restClient = new RestClient(_configuration.GetSection("API:Base_Url").Value);
     }
 
+    public async Task ConfirmEmail(string email, string token)
+    {
+        var request = new RestRequest("/auth/confirm-email", Method.Post);
+        request.AddJsonBody(new { email, token });  // Use anonymous object for both values
+
+        var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);
+        if (!response.IsSuccessful || response.Data == null)
+        {
+            throw new Exception(response?.ErrorMessage ?? "Email confirmation failed");
+        }
+    }
+
     public async Task<LoginResponseVM> Login(UserLoginVM vm)
     {
         var request = new RestRequest("/auth/login", Method.Post);
         request.AddJsonBody(vm);
 
         var response = await _restClient.ExecuteAsync<ApiResponseMessage<LoginResponseVM>>(request);
-        if (!response.IsSuccessful) throw new Exception();
+        if (!response.IsSuccessful || response.Data == null)
+        {
+            throw new Exception(response?.ErrorMessage ?? "Login failed");
+        }
 
         return response.Data.Data;
     }
@@ -35,7 +49,7 @@ public class AuthService : IAuthService
         _httpContextAccessor.HttpContext.Response.Cookies.Delete("token");
     }
 
-    public async Task Register(UserRegisterVM vm)
+    public async Task<string> Register(UserRegisterVM vm)
     {
         var request = new RestRequest("/auth/register", Method.Post);
         request.AddJsonBody(vm);
@@ -46,37 +60,7 @@ public class AuthService : IAuthService
             throw new Exception(response?.ErrorMessage ?? "Registration failed");
         }
 
+        return response.Data.Data?.ToString() ?? throw new Exception("Unexpected response format");
     }
 
-    public async Task<IActionResult> ConfirmEmail(ConfirmEmailVM vm)
-    {
-        var request = new RestRequest("/auth/confirmEmail", Method.Post);
-        request.AddJsonBody(vm);
-
-        var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);
-
-        if (!response.IsSuccessful || response.Data == null)
-        {
-            return new BadRequestObjectResult(new { Message = "Email confirmation failed." });
-        }
-
-        return new OkObjectResult(new { Message = "Email confirmed successfully!" });
-    }
-
-
-    //public Task<IActionResult> ForgotPassword(ForgotPasswordVM vm)
-    //{
-    //    throw new NotImplementedException();
-    //}
-
-    //public Task<IActionResult> ChangePassword(ChangePasswordVM vm)
-    //{
-    //    throw new NotImplementedException();
-    //}
- 
-
-    //public Task<IActionResult> ResetPassword(ResetPasswordVM vm)
-    //{
-    //    throw new NotImplementedException();
-    //}
 }

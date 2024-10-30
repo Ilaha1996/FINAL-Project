@@ -22,20 +22,10 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
 
             if (!response.IsSuccessful)
             {
-                // Check if response.Data is null before accessing ErrorMessage
-                if (response.Data != null)
-                {
-                    ViewBag.Err = response.Data.ErrorMessage;
-                }
-                else
-                {
-                    ViewBag.Err = "An error occurred, but no further details are available.";
-                }
-
+                ViewBag.Err = response.Data?.ErrorMessage ?? "An error occurred, but no further details are available.";
                 return View();
             }
 
-            // Also check if response.Data is null before trying to pass it to the view
             if (response.Data?.Data == null)
             {
                 ViewBag.Err = "No data received from the server.";
@@ -44,7 +34,6 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
 
             return View(response.Data.Data);
         }
-
 
         public IActionResult Create()
         {
@@ -57,10 +46,30 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
             if (!ModelState.IsValid) return View(vm);
 
             var serviceRequest = new RestRequest("services", Method.Post);
-            serviceRequest.AddJsonBody(vm);
+
+            serviceRequest.AddParameter("Name", vm.Name);
+            serviceRequest.AddParameter("Description", vm.Description);
+            serviceRequest.AddParameter("IsDeleted", vm.IsDeleted);
+            serviceRequest.AddParameter("Price", vm.Price);
+            serviceRequest.AddParameter("Duration", vm.Duration);
+
+            if (vm.Image.ContentType != "image/png" && vm.Image.ContentType != "image/jpeg")
+            {
+                ModelState.AddModelError("Image", "Image type must be jpeg/png");
+                return View(vm);
+            }
+            if (vm.Image.Length > 2 * 1024 * 1024)
+            {
+                ModelState.AddModelError("Image", "Image size must be less than 2 MB");
+                return View(vm);
+            }
+
+            await using var memoryStream = new MemoryStream();
+            await vm.Image.CopyToAsync(memoryStream);
+            byte[] bytes = memoryStream.ToArray();
+            serviceRequest.AddFile("Image", bytes, vm.Image.FileName, contentType: vm.Image.ContentType);
 
             var serviceResponse = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(serviceRequest);
-
             if (serviceResponse == null || !serviceResponse.IsSuccessful)
             {
                 var errorMessage = serviceResponse?.Data?.ErrorMessage ?? "An unexpected error occurred.";
@@ -75,7 +84,6 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
         {
             var serviceRequest = new RestRequest($"services/{id}", Method.Get);
             var serviceResponse = await _restClient.ExecuteAsync<ApiResponseMessage<ServiceGetVM>>(serviceRequest);
-
             if (serviceResponse == null || !serviceResponse.IsSuccessful || serviceResponse.Data == null || serviceResponse.Data.Data == null)
             {
                 string errorMessage = serviceResponse?.Data?.ErrorMessage ?? "An unexpected error occurred.";
@@ -88,8 +96,8 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
                 serviceResponse.Data.Data.Description,
                 serviceResponse.Data.Data.IsDeleted,
                 serviceResponse.Data.Data.Price,
-                serviceResponse.Data.Data.Duration                
-             );
+                serviceResponse.Data.Data.Duration, 
+                null);
 
             return View(vm);
         }
@@ -110,8 +118,28 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
                 Duration = vm.Duration,
             });
 
-            var serviceResponse = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(serviceRequest);
+            if (vm.Image != null)
+            {
+                if (vm.Image.ContentType != "image/png" && vm.Image.ContentType != "image/jpeg")
+                {
+                    ModelState.AddModelError("Image", "Image type must be jpeg/png");
+                    return View(vm);
+                }
+                if (vm.Image.Length > 2 * 1024 * 1024)
+                {
+                    ModelState.AddModelError("Image", "Image size must be less than 2 MB");
+                    return View(vm);
+                }
 
+                await using var memoryStream = new MemoryStream();
+                await vm.Image.CopyToAsync(memoryStream);
+                byte[] bytes = memoryStream.ToArray();
+                serviceRequest.AddFile("Image", bytes, vm.Image.FileName, contentType: vm.Image.ContentType);
+            }
+
+
+
+            var serviceResponse = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(serviceRequest);
             if (!serviceResponse.IsSuccessful)
             {
                 string errorMessage = serviceResponse?.Data?.ErrorMessage ?? "An unexpected error occurred.";

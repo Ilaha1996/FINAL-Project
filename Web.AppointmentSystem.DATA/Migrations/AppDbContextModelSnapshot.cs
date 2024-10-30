@@ -274,39 +274,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.FavoriteService", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FavoriteServices");
-                });
-
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -377,6 +344,39 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.ServiceImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ServiceID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceID")
+                        .IsUnique();
+
+                    b.ToTable("ServiceImages");
                 });
 
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.TimeSlot", b =>
@@ -505,25 +505,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.FavoriteService", b =>
-                {
-                    b.HasOne("Web_AppointmentSystem.CORE.Entities.Service", "Service")
-                        .WithMany("FavoriteServices")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Web_AppointmentSystem.CORE.Entities.AppUser", "User")
-                        .WithMany("FavoriteServices")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Service");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.Review", b =>
                 {
                     b.HasOne("Web_AppointmentSystem.CORE.Entities.Appointment", "Appointment")
@@ -535,6 +516,17 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Navigation("Appointment");
                 });
 
+            modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.ServiceImage", b =>
+                {
+                    b.HasOne("Web_AppointmentSystem.CORE.Entities.Service", "Service")
+                        .WithOne("ServiceImage")
+                        .HasForeignKey("Web_AppointmentSystem.CORE.Entities.ServiceImage", "ServiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.Appointment", b =>
                 {
                     b.Navigation("Reviews");
@@ -544,7 +536,8 @@ namespace Web.AppointmentSystem.DATA.Migrations
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("FavoriteServices");
+                    b.Navigation("ServiceImage")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.TimeSlot", b =>
@@ -555,8 +548,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.AppUser", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("FavoriteServices");
                 });
 #pragma warning restore 612, 618
         }

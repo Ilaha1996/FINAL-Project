@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Web_AppointmentSystem.BUSINESS.DTOs.ServiceDTOs;
 using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
 using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
+using Web_AppointmentSystem.BUSINESS.Utilities;
 using Web_AppointmentSystem.CORE.Entities;
 using Web_AppointmentSystem.CORE.Repostories;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Web_AppointmentSystem.BUSINESS.Services.Implementations;
 
@@ -13,14 +16,26 @@ public class ServiceService : IServiceService
 {
     private readonly IServiceRepo _serviceRepo;
     private readonly IMapper _mapper;
-    public ServiceService(IServiceRepo serviceRepo, IMapper mapper)
+    private readonly IWebHostEnvironment _env;
+    public ServiceService(IServiceRepo serviceRepo, IMapper mapper,IWebHostEnvironment env)
     {
         _serviceRepo = serviceRepo;
         _mapper = mapper;
+        _env = env;
     }
     public async Task<ServiceGetDto> CreateAsync(ServiceCreateDto dto)
     {
         Service service = _mapper.Map<Service>(dto);
+
+        string ImageUrl = dto.Image.SaveFile(_env.WebRootPath, "uploads");
+        service.ServiceImage = new ServiceImage()
+        {
+            ImageUrl = ImageUrl,
+            CreatedDate = DateTime.Now,
+            UpdatedDate = DateTime.Now,
+            IsDeleted = false            
+        };     
+
         service.CreatedDate = DateTime.Now;
         service.UpdatedDate = DateTime.Now;
         service.IsDeleted = false;
@@ -38,6 +53,12 @@ public class ServiceService : IServiceService
         if (id < 0) throw new InvalidIdException();
         var data = await _serviceRepo.GetByIdAsync(id);
         if (data == null) throw new EntityNotFoundException();
+
+        if (data.ServiceImage != null)
+        {
+            FileManager.DeleteFile(_env.WebRootPath, "uploads", data.ServiceImage.ImageUrl);
+            data.ServiceImage = null;
+        }
 
         _serviceRepo.DeleteAsync(data);
         await _serviceRepo.CommitAsync();
@@ -79,6 +100,23 @@ public class ServiceService : IServiceService
 
         var data = await _serviceRepo.GetByIdAsync((int)id);
         if (data == null) throw new EntityNotFoundException();
+
+        if (dto.Image != null)
+        {
+            if (data.ServiceImage != null)
+            {
+                FileManager.DeleteFile(_env.WebRootPath, "uploads", data.ServiceImage.ImageUrl);
+            }
+
+            string imageUrl = dto.Image.SaveFile(_env.WebRootPath, "uploads");
+            data.ServiceImage = new ServiceImage()
+            {
+                ImageUrl = imageUrl,
+                CreatedDate = data.ServiceImage?.CreatedDate ?? DateTime.Now, 
+                UpdatedDate = DateTime.Now,
+                IsDeleted = false,
+            };
+        }
 
         _mapper.Map(dto, data);
 

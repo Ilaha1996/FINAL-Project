@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Web.AppointmentSystem.DATA\Web.AppointmentSystem.DATA.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
-
 </Project>

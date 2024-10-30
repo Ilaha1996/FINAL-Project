@@ -13,6 +13,7 @@
     <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Image</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Price</th>
@@ -26,6 +27,16 @@
             counter++;
             <tr>
                 <th scope="row">@counter</th>
+                <td>
+                    @if (book.ServiceImage != null && !string.IsNullOrEmpty(book.ServiceImage.ImageUrl))
+                    {
+                        <img style="width:100px" src="~/uploads/services/@book.ServiceImage.ImageUrl" alt="Service Image" />
+                    }
+                    else
+                    {
+                        <span>No Image</span> 
+                    }
+                </td>
                 <td>@book.Name</td>
                 <td>@book.Description</td>
                 <td>@book.Price</td>

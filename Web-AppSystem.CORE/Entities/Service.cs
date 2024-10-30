@@ -9,4 +9,5 @@ public class Service:BaseEntity
 
     // Navigation properties
     public ICollection<Appointment>? Appointments { get; set; }
+    public ServiceImage ServiceImage { get; set; }
 }

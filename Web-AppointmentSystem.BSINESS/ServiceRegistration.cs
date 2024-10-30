@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Web_AppointmentSystem.BUSINESS.Services.ExternalService.Implementation;
+using Web_AppointmentSystem.BUSINESS.Services.ExternalService.Interface;
 using Web_AppointmentSystem.BUSINESS.Services.Implementations;
 using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
 
@@ -13,5 +15,6 @@ public static class ServiceRegistration
         services.AddScoped<IReviewService, ReviewService>();
         services.AddScoped<ITimeSlotService, TimeSlotService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 }
