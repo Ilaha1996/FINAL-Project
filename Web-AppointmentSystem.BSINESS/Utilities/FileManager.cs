@@ -22,8 +22,6 @@ public static class FileManager
     }
     public static void DeleteFile(string root, string folderName, string fileName)
     {
-        if (string.IsNullOrEmpty(fileName)) return;
-
         string path = Path.Combine(root, folderName, fileName);
 
         if (File.Exists(path))

@@ -72,15 +72,15 @@ public class AuthService : IAuthService
         appUser = await _userManager.FindByNameAsync(dto.Username);
         if (appUser != null)
         {
-            throw new EntityAlreadyExistException("AppUser already exists");
+            throw new EntityAlreadyExistException("User already exists with this username.");
 
         }
 
-        //appUser = await _userManager.FindByEmailAsync(dto.Email);
-        //if (appUser != null)
-        //{
-        //    throw new EntityAlreadyExistException("Email already exists");
-        //} bunu istifade etmedim chunki elimde email cox deyil register edib yoxlaya bileceyim amma acanda isleyir.
+        appUser = await _userManager.FindByEmailAsync(dto.Email);
+        if (appUser != null)
+        {
+            throw new EntityAlreadyExistException("Email already exists");
+        }
 
         appUser = new AppUser
         {
@@ -98,7 +98,7 @@ public class AuthService : IAuthService
         await _userManager.AddToRoleAsync(appUser, "Member");
 
         var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
-        var confirmationLink = $"{_configuration["AppUrl"]}/api/account/confirmemail?token={Uri.EscapeDataString(emailConfirmationToken)}&email={Uri.EscapeDataString(dto.Email)}";
+        var confirmationLink = $"{_configuration["AppUrl"]}/api/account/confirmEmail?token={Uri.EscapeDataString(emailConfirmationToken)}&email={Uri.EscapeDataString(dto.Email)}";
         await _emailService.SendMailAsync(dto.Email, "Confirm your email",$"Please confirm your email by clicking this link: <a href='{confirmationLink}'>Confirm Email</a>");
 
         return emailConfirmationToken;
@@ -124,6 +124,11 @@ public class AuthService : IAuthService
         }
     }
 
+    public async Task Logout()
+    {
+        await _signInManager.SignOutAsync();      
+    }
+
     private string GenerateJwtToken(IEnumerable<Claim> claims)
     {
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
@@ -140,8 +145,58 @@ public class AuthService : IAuthService
         return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
     }
 
-    public void Logout()
+    public async Task ForgotPassword(string email)
     {
-        throw new NotImplementedException();
+        AppUser appUser = null;
+        appUser = await _userManager.FindByEmailAsync(email);
+
+        if (appUser == null)
+        {
+            throw new UnauthorizedAccessException("Invalid credentials: User not found.");
+        }
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(appUser);
+        var resetLink = $"{_configuration["AppUrl"]}/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(email)}";
+        await _emailService.SendMailAsync(email, "Password Reset", $"Click here to reset your password: <a href='{resetLink}'>Reset Password</a>");
+
     }
+    public async Task<string> ResetPassword(ResetPasswordDto dto)
+    {
+        var appUser = await _userManager.FindByEmailAsync(dto.Email);
+        if (appUser == null)
+        {
+            throw new UnauthorizedAccessException("Invalid credentials: User not found.");
+        }
+
+        var result = await _userManager.ResetPasswordAsync(appUser, dto.Token, dto.Password);
+        
+        if (!result.Succeeded)
+        {
+           
+            throw new InvalidOperationException("Password reset failed");
+        }
+
+        return "Password reset successful.";
+    }
+    public async Task ChangePassword(ChangePasswordDto dto)
+    {
+        AppUser appUser = null;
+        if (appUser == null)
+        {
+            throw new UnauthorizedAccessException("User is not authenticated.");
+        }
+
+        bool isSamePassword = await _userManager.CheckPasswordAsync(appUser, dto.NewPassword);
+        if (isSamePassword)
+        {
+            throw new InvalidOperationException("New password must be different from the current password.");
+        }
+
+        var result = await _userManager.ChangePasswordAsync(appUser, dto.CurrentPassword, dto.NewPassword);
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException($"Password change failed");
+        }
+    }
+
 }

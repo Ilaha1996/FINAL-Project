@@ -5,7 +5,6 @@ public class Appointment : BaseEntity
     public string UserId { get; set; }
     public int ServiceId { get; set; }
     public int TimeSlotId { get; set; }  
-    public bool IsConfirmed { get; set; }
     public string? Notes { get; set; }
 
     // Navigation properties

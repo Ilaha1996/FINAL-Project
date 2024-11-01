@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Web-AppointmentSystem.BSINESS\Web-AppointmentSystem.BUSINESS.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

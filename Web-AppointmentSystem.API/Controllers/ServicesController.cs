@@ -21,7 +21,7 @@ namespace Web_AppointmentSystem.API.Controllers
         {
             return Ok(new ApiResponse<ICollection<ServiceGetDto>>
             {
-                Data = await _serviceService.GetByExpressionAsync(null,true),
+                Data = await _serviceService.GetByExpressionAsync(null,true, "ServiceImages"),
                 StatusCode = StatusCodes.Status200OK,
                 PropertyName = null,
                 ErrorMessage = string.Empty,
@@ -29,7 +29,7 @@ namespace Web_AppointmentSystem.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ServiceCreateDto dto)
+        public async Task<IActionResult> Create([FromForm] ServiceCreateDto dto)
         {
             ServiceGetDto service = null;
             try
@@ -95,7 +95,7 @@ namespace Web_AppointmentSystem.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ServiceUpdateDto dto)
+        public async Task<IActionResult> Update(int id, [FromForm] ServiceUpdateDto dto)
         {
             try
             {

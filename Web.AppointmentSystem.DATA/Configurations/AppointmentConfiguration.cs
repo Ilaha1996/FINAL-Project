@@ -8,8 +8,6 @@ namespace Web_AppointmentSystem.DATA.Configurations
     {
         public void Configure(EntityTypeBuilder<Appointment> builder)
         {
-            builder.Property(a => a.IsConfirmed)
-                   .IsRequired();
 
             builder.Property(a => a.Notes)
                    .HasMaxLength(1000); 

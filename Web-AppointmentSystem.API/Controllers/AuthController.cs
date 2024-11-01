@@ -73,11 +73,11 @@ namespace Web_AppointmentSystem.API.Controllers
                     ErrorMessage = null
                 });
             }
-            catch (NullReferenceException ex)
+            catch (UnauthorizedAccessException ex)
             {
-                return BadRequest(new ApiResponse<TokenResponseDto>
+                return Unauthorized(new ApiResponse<TokenResponseDto>
                 {
-                    StatusCode = StatusCodes.Status400BadRequest,
+                    StatusCode = StatusCodes.Status401Unauthorized,
                     ErrorMessage = ex.Message,
                     Data = null
                 });
@@ -93,6 +93,146 @@ namespace Web_AppointmentSystem.API.Controllers
             }
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await _authService.Logout();
+                return Ok(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Data = "Logout successful.",
+                    ErrorMessage = null
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    ErrorMessage = "An unexpected error occurred during logout.",
+                    Data = null
+                });
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        {
+            try
+            {
+                await _authService.ForgotPassword(email);
+                return Ok(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Data = "Password reset email sent successfully.",
+                    ErrorMessage = null
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    ErrorMessage = "An unexpected error occurred while attempting password reset.",
+                    Data = null
+                });
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            try
+            {
+                await _authService.ResetPassword(dto);
+                return Ok(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Data = "Password reset successful.",
+                    ErrorMessage = null
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    ErrorMessage = "An unexpected error occurred while resetting password.",
+                    Data = null
+                });
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            try
+            {
+                await _authService.ChangePassword(dto);
+                return Ok(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Data = "Password change successful.",
+                    ErrorMessage = null
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<object>
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    ErrorMessage = "An unexpected error occurred while changing password.",
+                    Data = null
+                });
+            }
+        }
     }
 }
 

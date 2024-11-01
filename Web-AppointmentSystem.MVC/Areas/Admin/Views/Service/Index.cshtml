@@ -28,14 +28,7 @@
             <tr>
                 <th scope="row">@counter</th>
                 <td>
-                    @if (book.ServiceImage != null && !string.IsNullOrEmpty(book.ServiceImage.ImageUrl))
-                    {
-                        <img style="width:100px" src="~/uploads/services/@book.ServiceImage.ImageUrl" alt="Service Image" />
-                    }
-                    else
-                    {
-                        <span>No Image</span> 
-                    }
+                    <img style="width:100px" src="~/uploads/@book.ServiceImages.FirstOrDefault()" alt="Service Image" />              
                 </td>
                 <td>@book.Name</td>
                 <td>@book.Description</td>

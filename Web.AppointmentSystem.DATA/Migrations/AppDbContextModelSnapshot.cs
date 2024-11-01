@@ -240,9 +240,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsConfirmed")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -373,8 +370,7 @@ namespace Web.AppointmentSystem.DATA.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ServiceID")
-                        .IsUnique();
+                    b.HasIndex("ServiceID");
 
                     b.ToTable("ServiceImages");
                 });
@@ -519,8 +515,8 @@ namespace Web.AppointmentSystem.DATA.Migrations
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.ServiceImage", b =>
                 {
                     b.HasOne("Web_AppointmentSystem.CORE.Entities.Service", "Service")
-                        .WithOne("ServiceImage")
-                        .HasForeignKey("Web_AppointmentSystem.CORE.Entities.ServiceImage", "ServiceID")
+                        .WithMany("ServiceImages")
+                        .HasForeignKey("ServiceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -536,8 +532,7 @@ namespace Web.AppointmentSystem.DATA.Migrations
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("ServiceImage")
-                        .IsRequired();
+                    b.Navigation("ServiceImages");
                 });
 
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.TimeSlot", b =>

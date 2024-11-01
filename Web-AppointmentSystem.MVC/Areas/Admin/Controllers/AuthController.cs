@@ -40,7 +40,6 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
 
             var response = await _restClient.ExecuteAsync<ApiResponseMessage<TokenResponseVM>>(request);
 
-            // Check if the response was successful
             if (response == null || !response.IsSuccessful || response.Data == null)
             {
                 var errorMessage = response?.Data?.ErrorMessage ?? "An unexpected error occurred during login.";
@@ -50,21 +49,18 @@ namespace Web_AppointmentSystem.MVC.Areas.Admin.Controllers
 
             var data = response.Data.Data;
 
-            // Ensure token is received
             if (data == null)
             {
                 ModelState.AddModelError("", "Login failed. Please try again.");
                 return View(vm);
             }
 
-            // Append the token to cookies
             HttpContext.Response.Cookies.Append("token", data.AccessToken, new CookieOptions
             {
                 Expires = data.ExpireDate,
                 HttpOnly = true
             });
 
-            // Redirect to the Appointment Index page after login
             return RedirectToAction("Index", "Appointment");
         }
     }
