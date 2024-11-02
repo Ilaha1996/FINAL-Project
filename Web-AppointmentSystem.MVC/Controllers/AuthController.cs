@@ -9,13 +9,9 @@ namespace Web_AppointmentSystem.MVC.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IEmailService _emailService;
-        //private readonly UserManager<AppUser> _userManager;
-        //private readonly SignInManager<AppUser> _signInManager;
 
         public AuthController(IAuthService authService, IEmailService emailService /*UserManager<AppUser> userManager, SignInManager<AppUser> signInManager*/)
         {
-            //_userManager = userManager;
-            //_signInManager = signInManager;
             _authService = authService;
             _emailService = emailService;
         }

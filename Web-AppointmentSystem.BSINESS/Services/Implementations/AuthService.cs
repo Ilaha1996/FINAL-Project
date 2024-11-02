@@ -156,7 +156,7 @@ public class AuthService : IAuthService
         }
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(appUser);
-        var resetLink = $"{_configuration["AppUrl"]}/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(email)}";
+        var resetLink = $"{_configuration["AppUrl"]}/auth/ResetPassword?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(email)}";
         await _emailService.SendMailAsync(email, "Password Reset", $"Click here to reset your password: <a href='{resetLink}'>Reset Password</a>");
 
     }

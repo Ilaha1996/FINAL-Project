@@ -28,7 +28,7 @@
             <tr>
                 <th scope="row">@counter</th>
                 <td>
-                    <img style="width:100px" src="~/uploads/@book.ServiceImages.FirstOrDefault()" alt="Service Image" />              
+                    <img style="width:100px" src="https://localhost:7197/uploads/@book.ServiceImages.FirstOrDefault()?.ImageUrl" alt="Service Image" />
                 </td>
                 <td>@book.Name</td>
                 <td>@book.Description</td>

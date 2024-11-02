@@ -1,4 +1,6 @@
-﻿<div class="breadcumb-wrapper" data-bg-src="assets/img/breadcumb/breadcumb-bg-4.jpg">
+﻿@model ServicePageVM
+
+<div class="breadcumb-wrapper" data-bg-src="assets/img/breadcumb/breadcumb-bg-4.jpg">
     <div class="container z-index-common">
         <div class="breadcumb-content">
             <h1 class="breadcumb-title">Our <span class="inner-text">Services</span></h1>
@@ -13,60 +15,50 @@
         </div>
         <div class="container-xl">
             <div class="row justify-content-between align-items-center">
+                <!-- Left Services Column -->
                 <div class="col-md-6 col-lg-5 col-xxl-auto">
-                    <div class="service-style1 reverse">
-                        <div class="vs-icon"><img src="assets/img/icon/sr-i-1-1.png" alt="icon"></div>
-                        <div class="service-content">
-                            <h3 class="service-title"><a href="service-details.html" class="text-inherit">Discover New</a></h3>
-                            <p class="service-text">There are many variations of passages...</p>
+                    @foreach (var service in Model.LeftServices)
+                    {
+                        <div class="service-style1 reverse">
+                            <div class="vs-icon">
+                                <img style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover;" src="https://localhost:7197/uploads/@service.ServiceImages.FirstOrDefault()?.ImageUrl" alt="Service Image">
+                            </div>
+                            <div class="service-content">
+                                <h3 class="service-title">
+                                    <a href="service-details.html" class="text-inherit">@service.Name</a>
+                                </h3>
+                                <h3>@service.Price$</h3>
+                                <p class="service-text">@service.Description</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-style1 reverse">
-                        <div class="vs-icon"><img src="assets/img/icon/sr-i-1-2.png" alt="icon"></div>
-                        <div class="service-content">
-                            <h3 class="service-title"><a href="service-details.html" class="text-inherit">Eye & Shadow</a></h3>
-                            <p class="service-text">There are many variations of passages...</p>
-                        </div>
-                    </div>
-                    <div class="service-style1 reverse">
-                        <div class="vs-icon"><img src="assets/img/icon/sr-i-1-3.png" alt="icon"></div>
-                        <div class="service-content">
-                            <h3 class="service-title"><a href="service-details.html" class="text-inherit">Relaxation Room</a></h3>
-                            <p class="service-text">There are many variations of passages...</p>
-                        </div>
-                    </div>
-                </div>
+                    }
+                </div>                
+                <!-- Center Shape (Optional) -->
                 <div class="col col-xxl-auto text-center d-none d-lg-block">
                     <img src="assets/img/bg/sr-shape-1-1.png" alt="shape" class="mt-n4">
-                </div>
+                </div>                
+                <!-- Right Services Column -->
                 <div class="col-md-6 col-lg-5 col-xxl-auto">
-                    <div class="service-style1">
-                        <div class="vs-icon"><img src="assets/img/icon/sr-i-1-4.png" alt="icon"></div>
-                        <div class="service-content">
-                            <h3 class="service-title"><a href="service-details.html" class="text-inherit">Thermal Bath</a></h3>
-                            <p class="service-text">There are many variations of passages...</p>
+                    @foreach (var service in Model.RightServices)
+                    {
+                        <div class="service-style1">
+                            <div class="vs-icon">
+                                <img style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover;" src="https://localhost:7197/uploads/@service.ServiceImages.FirstOrDefault()?.ImageUrl" alt="Service Image">
+                            </div>
+                            <div class="service-content">
+                                <h3 class="service-title">
+                                    <a href="service-details.html" class="text-inherit">@service.Name</a>
+                                </h3>
+                                <h3>@service.Price$</h3>
+                                <p class="service-text">@service.Description</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-style1">
-                        <div class="vs-icon"><img src="assets/img/icon/sr-i-1-5.png" alt="icon"></div>
-                        <div class="service-content">
-                            <h3 class="service-title"><a href="service-details.html" class="text-inherit">Stone Massage</a></h3>
-                            <p class="service-text">There are many variations of passages...</p>
-                        </div>
-                    </div>
-                    <div class="service-style1">
-                        <div class="vs-icon"><img src="assets/img/icon/sr-i-1-6.png" alt="icon"></div>
-                        <div class="service-content">
-                            <h3 class="service-title"><a href="service-details.html" class="text-inherit">Parlar & Beauty</a></h3>
-                            <p class="service-text">There are many variations of passages...</p>
-                        </div>
-                    </div>
+                    }
                 </div>
-            </div>
-        </div>
-    </div>
+            </div> <!-- End Row -->
+        </div> <!-- End Container -->
+    </div> <!-- End Service Inner -->
 </section>
-
 <section class="space-top space-extra-bottom">
     <div class="parallax" data-parallax-image="assets/img/bg/price-bg-2-1.jpg"></div>
     <div class="container">
