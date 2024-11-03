@@ -10,9 +10,8 @@ public interface IAuthService
     Task<TokenResponseDto> Login(UserLoginDto dto);
     List<AppUser> GetAllUsers();
     Task ConfirmEmail(string email, string token);
-    Task ForgotPassword(string email);
+    Task ForgotPassword(ForgotPasswordDto dto);
     Task Logout();
-
     Task<string> ResetPassword(ResetPasswordDto dto);
     Task ChangePassword(ChangePasswordDto dto);
 

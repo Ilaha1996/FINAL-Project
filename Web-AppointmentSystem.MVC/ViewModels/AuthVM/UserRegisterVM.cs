@@ -1,12 +1,2 @@
 ﻿namespace Web_AppointmentSystem.MVC.ViewModels.AuthVM;
-public class UserRegisterVM
-{
-    public string Fullname { get; set; }
-    public string Username { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
-    public string ConfirmPassword { get; set; }
-}
-
-
-
+public record UserRegisterVM(string Fullname, string Username, string Email, string Password, string ConfirmPassword);

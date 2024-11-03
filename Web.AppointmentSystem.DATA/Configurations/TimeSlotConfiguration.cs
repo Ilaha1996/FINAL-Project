@@ -14,13 +14,10 @@ namespace Web_AppointmentSystem.DATA.Configurations
             builder.Property(x => x.StartTime)
                    .IsRequired();
 
-            builder.Property(x => x.EndTime)
-                   .IsRequired();
-
             builder.Property(x => x.IsAvailable)
                    .IsRequired();
        
-            builder.HasIndex(x => new { x.Date, x.StartTime, x.EndTime })
+            builder.HasIndex(x => new { x.Date, x.StartTime })
                    .IsUnique();
         }
     }

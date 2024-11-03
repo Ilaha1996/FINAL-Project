@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web_AppointmentSystem.MVC.Services.ExternalServices.Interfaces;
 using Web_AppointmentSystem.MVC.Services.Interfaces;
+using Web_AppointmentSystem.MVC.UIExceptions;
 using Web_AppointmentSystem.MVC.ViewModels.AuthVM;
 
 namespace Web_AppointmentSystem.MVC.Controllers
@@ -74,56 +75,105 @@ namespace Web_AppointmentSystem.MVC.Controllers
             return RedirectToAction("Login");
         }
 
-        //public async Task<IActionResult> ConfirmEmail(string email, string token)
-        //{
-        //    var appUser = await _userManager.FindByEmailAsync(email);
-        //    if (appUser == null)
-        //    {
-        //        ViewBag.Message = "User not found";
-        //        return View("Common");
-        //    }
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
+        {
+            try
+            {
+                await _authService.ConfirmEmail(email, token);
 
-        //    var result = await _userManager.ConfirmEmailAsync(appUser, token);
-        //    if (!result.Succeeded)
-        //    {
-        //        ViewBag.Message = "Email confirmation failed. The link may have expired or is invalid.";
-        //        return View("Common");
-        //    }
+                TempData["SuccessMessage"] = "Your email has been successfully confirmed. Please log in.";
+                return RedirectToAction("Login");
+            }
+            catch (InvalidTokenException) 
+            {
+                ModelState.AddModelError("", "The email confirmation link is invalid or has expired.");
+                return RedirectToAction("Register"); 
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                ViewBag.Message = "Email confirmation failed. Please try again later or contact support.";
+                return View("Common"); 
+            }
+        }
 
-        //    TempData["SuccessMessage"] = "Your email has been successfully confirmed. Please log in.";
-        //    return RedirectToAction("Login");
-        //}
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
 
-        //[HttpGet]
-        //public IActionResult ForgotPassword()
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM vm)
+        {
+            if (!ModelState.IsValid) return View();
+            try
+            {
+                await _authService.ForgotPassword(vm);
+                ViewBag.Message = "A reset password link has been sent to your email.";
+                return View("Common");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                ViewBag.Message = ex.Message ?? "Password reset failed. Please try again later or contact support.";
+                return View("Common");
+            }         
+        }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> ForgotPassword(ForgotPasswordVM vm)
-        //{
-        //    if (!ModelState.IsValid) return View();
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
 
-        //    var appUser = await _userManager.FindByEmailAsync(vm.Email);
-        //    if (appUser == null)
-        //    {
-        //        ModelState.AddModelError("Email", "Email not found");
-        //        return View();
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordVM vm)
+        {
+            if (!ModelState.IsValid) return View();
 
-        //    string token = await _userManager.GeneratePasswordResetTokenAsync(appUser);
-        //    string resetUrl = Url.Action("ResetPassword", "Account", new { email = vm.Email, token = token }, Request.Scheme);
+            try
+            {
+                await _authService.ChangePassword(vm);
+                TempData["SuccessMessage"] = "Your password has been successfully changed. Please log in with your new password.";
+                return RedirectToAction("Login");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                ViewBag.Message = ex.Message ?? "Password change failed. Please try again later or contact support.";
+                return View("Common");
+            }
+        }
 
-        //    string emailBody = $"Please reset your password by clicking the following link: <a href='{resetUrl}'>Reset Password</a>";
-        //    await _emailService.SendMailAsync(vm.Email, "Password Reset Request", emailBody);
+        [HttpGet]
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
 
-        //    ViewBag.Message = "Reset password link sent to email";
-        //    return View("Common");
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM vm)
+        {
+            if (!ModelState.IsValid) return View();
 
+            try
+            {
+                await _authService.ResetPassword(vm); 
+                TempData["SuccessMessage"] = "Your password has been successfully reset. Please log in with your new password.";
+                return RedirectToAction("Login");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
 
+                ViewBag.Message = ex.Message ?? "Password reset failed. Please try again later or contact support.";
+                return View("Common");
+            }
+        }
 
     }
 }

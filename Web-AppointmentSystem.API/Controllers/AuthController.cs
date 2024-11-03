@@ -118,11 +118,11 @@ namespace Web_AppointmentSystem.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
         {
             try
             {
-                await _authService.ForgotPassword(email);
+                await _authService.ForgotPassword(dto);
                 return Ok(new ApiResponse<object>
                 {
                     StatusCode = StatusCodes.Status200OK,

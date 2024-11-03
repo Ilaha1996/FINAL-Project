@@ -12,7 +12,7 @@ public class ServiceUpdateDtoValidator : AbstractValidator<ServiceUpdateDto>
         RuleFor(x => x.Name).NotEmpty().WithMessage("Can not be empty!")
             .NotNull().WithMessage("Can not be null")
             .MinimumLength(1).WithMessage("Minimum length must be 1")
-            .MaximumLength(50).WithMessage("Maximum length must be 200");
+            .MaximumLength(50).WithMessage("Maximum length must be 50");
 
         RuleFor(x => x.Description)
             .NotNull().When(x => !x.IsDeleted).WithMessage("If movie is active description can not be null!")

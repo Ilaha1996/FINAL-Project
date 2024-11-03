@@ -2,7 +2,7 @@
 
 namespace Web_AppointmentSystem.BUSINESS.DTOs.TimeSlotDTOs;
 
-public record TimeSlotCreateDto(DateTime Date, TimeSpan StartTime, TimeSpan EndTime, bool IsAvailable, bool IsDeleted);
+public record TimeSlotCreateDto(DateTime Date, TimeSpan StartTime, bool IsAvailable, bool IsDeleted);
 
 public class TimeSlotCreateDtoValidator : AbstractValidator<TimeSlotCreateDto>
 {
@@ -13,16 +13,7 @@ public class TimeSlotCreateDtoValidator : AbstractValidator<TimeSlotCreateDto>
                  .GreaterThan(DateTime.Now).WithMessage("Date cannot be in the past.");
 
         RuleFor(x => x.StartTime)
-            .NotEmpty().WithMessage("StartTime must be provided.")
-            .LessThan(x => x.EndTime).WithMessage("StartTime must be earlier than EndTime.");
-
-        RuleFor(x => x.EndTime)
-            .NotEmpty().WithMessage("EndTime must be provided.")
-            .GreaterThan(x => x.StartTime).WithMessage("EndTime must be later than StartTime.");
-
-        RuleFor(x => x)
-        .Must(x => (x.EndTime - x.StartTime).TotalMinutes <= 120)
-        .WithMessage("The difference between StartTime and EndTime must not exceed 2 hours (120 minutes).");
+            .NotEmpty().WithMessage("StartTime must be provided.");
 
         RuleFor(x => x.IsAvailable)
             .NotNull().WithMessage("IsAvailable must be provided.");

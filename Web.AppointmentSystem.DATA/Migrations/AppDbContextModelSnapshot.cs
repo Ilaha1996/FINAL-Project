@@ -389,9 +389,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
-
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
@@ -406,7 +403,7 @@ namespace Web.AppointmentSystem.DATA.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Date", "StartTime", "EndTime")
+                    b.HasIndex("Date", "StartTime")
                         .IsUnique();
 
                     b.ToTable("TimeSlots");

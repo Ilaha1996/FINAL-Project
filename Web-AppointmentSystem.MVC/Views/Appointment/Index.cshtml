@@ -22,13 +22,16 @@
                 <form action="https://html.vecurosoft.com/wellnez/demo/appointment-mail.php" class="form-style2 appointment-form">
                     <h2 class="form-title">Book Appointment</h2>
                     <p class="form-label">Today For Free</p>
-                    <div class="form-group"><input type="text" name="name" id="name" placeholder="Your Name"></div>
-                    <div class="form-group"><input type="email" name="email" id="email" placeholder="Email Address"></div>
-                    <div class="form-group"><input type="number" name="number" id="number" placeholder="Phone Number"></div>
-                    <div class="form-group"><input type="text" name="date" id="date" autocomplete="off" class="form-control dateTime-pick" placeholder="Select Date"></div>
+                    <div class="form-group">
+                        <input type="date" name="date" id="date" autocomplete="off" class="form-control dateTime-pick" placeholder="Select Date" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")">
+                    </div>
+                    <div class="form-group">
+                        <input type="time" name="startTime" id="startTime" class="form-control time-pick" placeholder="Select Start Time" min="09:00" max="18:00">
+                    </div>
+
                     <div class="form-group">
                         <select name="subject" id="subject">
-                            <option disabled="disabled" hidden selected="selected">Select Subject</option>
+                            <option disabled="disabled" hidden selected="selected">Select Service</option>
                             <option>Sports Massage</option>
                             <option>Stone Massage</option>
                             <option>Head Massage</option>

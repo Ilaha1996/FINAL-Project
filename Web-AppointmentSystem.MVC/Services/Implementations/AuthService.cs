@@ -18,18 +18,17 @@ public class AuthService : IAuthService
         _restClient = new RestClient(_configuration.GetSection("API:Base_Url").Value);
     }
 
-    public async Task ConfirmEmail(string email, string token)
-    {
+     public async Task ConfirmEmail(string email, string token)
+     {
         var request = new RestRequest("/auth/confirm-email", Method.Post);
-        request.AddJsonBody(new { email, token });  // Use anonymous object for both values
+        request.AddJsonBody(new { email, token });  
 
         var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);
         if (!response.IsSuccessful || response.Data == null)
         {
             throw new Exception(response?.ErrorMessage ?? "Email confirmation failed");
         }
-    }
-
+     }
     public async Task<LoginResponseVM> Login(UserLoginVM vm)
     {
         var request = new RestRequest("/auth/login", Method.Post);
@@ -43,12 +42,10 @@ public class AuthService : IAuthService
 
         return response.Data.Data;
     }
-
     public void Logout()
     {
         _httpContextAccessor.HttpContext.Response.Cookies.Delete("token");
     }
-
     public async Task<string> Register(UserRegisterVM vm)
     {
         var request = new RestRequest("/auth/register", Method.Post);
@@ -61,6 +58,63 @@ public class AuthService : IAuthService
         }
 
         return response.Data.Data?.ToString() ?? throw new Exception("Unexpected response format");
+    }
+    public async Task<string> ResetPassword(ResetPasswordVM vm)
+    {
+        var request = new RestRequest("/auth/resetPassword", Method.Post);
+        request.AddJsonBody(vm);
+
+        var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);
+
+        if (!response.IsSuccessful || response.Data == null)
+        {
+            var errorMessage = response?.ErrorMessage ?? "Password reset failed. Please try again.";
+            throw new Exception(errorMessage);
+        }
+
+        if (response.Data.Data == null)
+        {
+            throw new Exception("Unexpected response format: Data is missing.");
+        }
+
+        return response.Data.Data.ToString();
+    }
+    public async Task ChangePassword(ChangePasswordVM vm)
+    {
+        var request = new RestRequest("/auth/changePassword", Method.Post);
+        request.AddJsonBody(vm);
+
+        var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);
+
+        if (!response.IsSuccessful || response.Data == null)
+        {
+            var errorMessage = response?.ErrorMessage ?? "Password change failed. Please try again.";
+            throw new Exception(errorMessage);
+        }
+
+        if (response.Data.Data == null)
+        {
+            throw new Exception("Unexpected response format: Data is missing.");
+        }
+    }
+    public async Task ForgotPassword(ForgotPasswordVM vm)
+    {
+        var request = new RestRequest("/auth/forgotPassword", Method.Post);
+        request.AddJsonBody(vm);
+
+        var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);
+
+        if (!response.IsSuccessful || response.Data == null)
+        {
+            var errorMessage = response?.ErrorMessage ?? "Password reset request failed. Please try again.";
+            throw new Exception(errorMessage);
+        }
+
+        if (response.Data.Data == null)
+        {
+            throw new Exception("Unexpected response format: Data is missing.");
+        }
+
     }
 
 }

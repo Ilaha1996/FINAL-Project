@@ -145,10 +145,10 @@ public class AuthService : IAuthService
         return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
     }
 
-    public async Task ForgotPassword(string email)
+    public async Task ForgotPassword(ForgotPasswordDto dto)
     {
         AppUser appUser = null;
-        appUser = await _userManager.FindByEmailAsync(email);
+        appUser = await _userManager.FindByEmailAsync(dto.Email);
 
         if (appUser == null)
         {
@@ -156,8 +156,8 @@ public class AuthService : IAuthService
         }
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(appUser);
-        var resetLink = $"{_configuration["AppUrl"]}/auth/ResetPassword?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(email)}";
-        await _emailService.SendMailAsync(email, "Password Reset", $"Click here to reset your password: <a href='{resetLink}'>Reset Password</a>");
+        var resetLink = $"{_configuration["AppUrl"]}/auth/ResetPassword?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(dto.Email)}";
+        await _emailService.SendMailAsync(dto.Email, "Password Reset", $"Click here to reset your password: <a href='{resetLink}'>Reset Password</a>");
 
     }
     public async Task<string> ResetPassword(ResetPasswordDto dto)
