@@ -13,6 +13,7 @@ namespace Web_AppointmentSystem.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHttpContextAccessor();
             builder.Services.RegisterService();
             builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
      

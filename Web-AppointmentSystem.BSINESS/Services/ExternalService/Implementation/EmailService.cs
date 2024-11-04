@@ -24,6 +24,16 @@ public class EmailService : IEmailService
             Credentials = new NetworkCredential(fromMail, password)
         };
 
-        await client.SendMailAsync(new MailMessage(fromMail, to, subject, body) { IsBodyHtml = true });
+        try
+        {
+            await client.SendMailAsync(new MailMessage(fromMail, to, subject, body) { IsBodyHtml = true });
+        }
+        catch (Exception ex)
+        {
+
+            Console.WriteLine(ex.Message);
+        }
+        
+
     }
 }

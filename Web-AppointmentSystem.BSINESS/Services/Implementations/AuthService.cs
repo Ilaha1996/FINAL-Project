@@ -64,7 +64,6 @@ public class AuthService : IAuthService
         var token = GenerateJwtToken(claims);
         return new TokenResponseDto(token, DateTime.UtcNow.AddMinutes(40));
     }
-
     public async Task<string> Register(UserRegisterDto dto)
     {
         AppUser appUser = null;
@@ -98,17 +97,11 @@ public class AuthService : IAuthService
         await _userManager.AddToRoleAsync(appUser, "Member");
 
         var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
-        var confirmationLink = $"{_configuration["AppUrl"]}/api/account/confirmEmail?token={Uri.EscapeDataString(emailConfirmationToken)}&email={Uri.EscapeDataString(dto.Email)}";
-        await _emailService.SendMailAsync(dto.Email, "Confirm your email",$"Please confirm your email by clicking this link: <a href='{confirmationLink}'>Confirm Email</a>");
+        var confirmationLink = $"{_configuration["AppUrl"]}/api/auth/ConfirmEmail?token={Uri.EscapeDataString(emailConfirmationToken)}&email={Uri.EscapeDataString(dto.Email)}";
+        await _emailService.SendMailAsync(dto.Email, "Confirm your email", $"Please confirm your email by clicking this link: <a href='{confirmationLink}'>Confirm Email</a>");
 
         return emailConfirmationToken;
     }
-
-    public List<AppUser> GetAllUsers()
-    {
-        return _userManager.Users.ToList();
-    }
-
     public async Task ConfirmEmail(string email, string token)
     {
         var appUser = await _userManager.FindByEmailAsync(email);
@@ -123,12 +116,10 @@ public class AuthService : IAuthService
             throw new UserRegistrationException("User email confirmation failed.");
         }
     }
-
     public async Task Logout()
     {
-        await _signInManager.SignOutAsync();      
+        await _signInManager.SignOutAsync();
     }
-
     private string GenerateJwtToken(IEnumerable<Claim> claims)
     {
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
@@ -144,7 +135,6 @@ public class AuthService : IAuthService
 
         return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
     }
-
     public async Task ForgotPassword(ForgotPasswordDto dto)
     {
         AppUser appUser = null;
@@ -160,7 +150,7 @@ public class AuthService : IAuthService
         await _emailService.SendMailAsync(dto.Email, "Password Reset", $"Click here to reset your password: <a href='{resetLink}'>Reset Password</a>");
 
     }
-    public async Task<string> ResetPassword(ResetPasswordDto dto)
+    public async Task ResetPassword(ResetPasswordDto dto)
     {
         var appUser = await _userManager.FindByEmailAsync(dto.Email);
         if (appUser == null)
@@ -169,18 +159,25 @@ public class AuthService : IAuthService
         }
 
         var result = await _userManager.ResetPasswordAsync(appUser, dto.Token, dto.Password);
-        
+
         if (!result.Succeeded)
         {
-           
+
             throw new InvalidOperationException("Password reset failed");
         }
-
-        return "Password reset successful.";
+        
     }
     public async Task ChangePassword(ChangePasswordDto dto)
     {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(dto.Token);
+
+        var id = jwtToken.Claims
+                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
+                 .Value;
+
         AppUser appUser = null;
+        appUser = await _userManager.FindByIdAsync(id);
         if (appUser == null)
         {
             throw new UnauthorizedAccessException("User is not authenticated.");

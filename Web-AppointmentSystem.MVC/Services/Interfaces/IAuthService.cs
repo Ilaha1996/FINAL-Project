@@ -9,7 +9,7 @@ namespace Web_AppointmentSystem.MVC.Services.Interfaces
         Task ConfirmEmail(string email, string token);
         void Logout();
         Task ForgotPassword(ForgotPasswordVM vm);
-        Task<string> ResetPassword(ResetPasswordVM vm);
+        Task ResetPassword(ResetPasswordVM vm);
         Task ChangePassword(ChangePasswordVM vm);
     }
 }

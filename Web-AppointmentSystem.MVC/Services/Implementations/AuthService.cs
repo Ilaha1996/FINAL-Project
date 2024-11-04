@@ -1,4 +1,8 @@
-﻿using RestSharp;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using Web_AppointmentSystem.MVC.Services.Interfaces;
 using Web_AppointmentSystem.MVC.ViewModels.AuthVM;
@@ -11,6 +15,7 @@ public class AuthService : IAuthService
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
+
     public AuthService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
     {
         _configuration = configuration;
@@ -18,17 +23,13 @@ public class AuthService : IAuthService
         _restClient = new RestClient(_configuration.GetSection("API:Base_Url").Value);
     }
 
-     public async Task ConfirmEmail(string email, string token)
-     {
-        var request = new RestRequest("/auth/confirm-email", Method.Post);
+    public async Task ConfirmEmail(string email, string token)
+    {
+        var request = new RestRequest("/auth/confirmEmail", Method.Post);
         request.AddJsonBody(new { email, token });  
 
-        var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);
-        if (!response.IsSuccessful || response.Data == null)
-        {
-            throw new Exception(response?.ErrorMessage ?? "Email confirmation failed");
-        }
-     }
+        var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);        
+    }
     public async Task<LoginResponseVM> Login(UserLoginVM vm)
     {
         var request = new RestRequest("/auth/login", Method.Post);
@@ -59,7 +60,7 @@ public class AuthService : IAuthService
 
         return response.Data.Data?.ToString() ?? throw new Exception("Unexpected response format");
     }
-    public async Task<string> ResetPassword(ResetPasswordVM vm)
+    public async Task ResetPassword(ResetPasswordVM vm)
     {
         var request = new RestRequest("/auth/resetPassword", Method.Post);
         request.AddJsonBody(vm);
@@ -75,13 +76,13 @@ public class AuthService : IAuthService
         if (response.Data.Data == null)
         {
             throw new Exception("Unexpected response format: Data is missing.");
-        }
-
-        return response.Data.Data.ToString();
+        }   
     }
     public async Task ChangePassword(ChangePasswordVM vm)
     {
         var request = new RestRequest("/auth/changePassword", Method.Post);
+        var token = _httpContextAccessor.HttpContext?.Request.Cookies["token"];
+        vm.Token = token;
         request.AddJsonBody(vm);
 
         var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);

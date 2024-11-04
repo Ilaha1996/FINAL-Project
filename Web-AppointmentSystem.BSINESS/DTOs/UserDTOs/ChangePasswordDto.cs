@@ -2,7 +2,7 @@
 
 namespace Web_AppointmentSystem.BUSINESS.DTOs.UserDTOs
 {
-    public record ChangePasswordDto(string CurrentPassword, string NewPassword, string ConfirmNewPassword);
+    public record ChangePasswordDto(string Token,string CurrentPassword, string NewPassword, string ConfirmNewPassword);
 
     public class ChangePasswordDtoValidator : AbstractValidator<ChangePasswordDto>
     {

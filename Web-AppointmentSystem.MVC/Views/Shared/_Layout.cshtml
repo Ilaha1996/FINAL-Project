@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!doctype html>
 <html class="no-js" lang="zxx">
 <!-- Mirrored from html.vecurosoft.com/wellnez/demo/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Oct 2024 05:27:49 GMT -->
 <head>
@@ -144,11 +145,15 @@
                                     <li><a href="appointment">Appointment</a></li>
                                     <li><a href="contact">Contact Us</a></li>
                                     <li>
-                                        @if (!Context.User.Identity.IsAuthenticated)
+                                        @{
+                                            bool isAuthenticated = HttpContextAccessor.HttpContext.Request.Cookies["token"] != null;
+                                        }
+
+                                        @if (!isAuthenticated)
                                         {
                                             <div class="login-block">
                                                 <a asp-action="login" asp-controller="auth" class="font-weight-bold">Login</a><b>Or</b>
-                                                <a asp-action="register" asp-controller="auth">Register</a>                                              
+                                                <a asp-action="register" asp-controller="auth">Register</a>
                                             </div>
                                         }
                                         else

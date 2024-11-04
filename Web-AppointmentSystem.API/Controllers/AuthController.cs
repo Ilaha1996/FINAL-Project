@@ -17,6 +17,7 @@ namespace Web_AppointmentSystem.API.Controllers
             _authService = authService;
         }
 
+
         [HttpPost("[action]")]
         public async Task<IActionResult> Register(UserRegisterDto dto)
         {
@@ -156,12 +157,8 @@ namespace Web_AppointmentSystem.API.Controllers
             try
             {
                 await _authService.ResetPassword(dto);
-                return Ok(new ApiResponse<object>
-                {
-                    StatusCode = StatusCodes.Status200OK,
-                    Data = "Password reset successful.",
-                    ErrorMessage = null
-                });
+                return Redirect("https://localhost:7023/auth/ResetPassword");
+             
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -233,6 +230,54 @@ namespace Web_AppointmentSystem.API.Controllers
                 });
             }
         }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] string email)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
+            {
+                return BadRequest(new ApiResponse<string>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = "Email and token cannot be null or empty.",
+                    Data = null
+                });
+            }
+
+            try
+            {
+                await _authService.ConfirmEmail(email, token);
+                return Redirect("https://localhost:7023/auth/ConfirmEmail");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ApiResponse<string>
+                {
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new ApiResponse<string>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    ErrorMessage = "An unexpected error occurred during email confirmation.",
+                    Data = null
+                });
+            }
+        }
+
     }
 }
 
@@ -254,7 +299,7 @@ namespace Web_AppointmentSystem.API.Controllers
 //    AppUser appUser = new AppUser()
 //    {
 //        UserName = "Ilaha",
-//        Email = "ilahahasanova@yahoo.com",
+//        Email = "hasanovaa.ilahaa@gmail.com",
 //        Fullname = "Ilaha Hasanova"
 //    };
 
@@ -273,9 +318,11 @@ namespace Web_AppointmentSystem.API.Controllers
 //[HttpGet]
 //public async Task<IActionResult> AddRole()
 //{
-//    AppUser appUser = await _userManager.FindByNameAsync("Aghalar");
+//    AppUser appUser = await _userManager.FindByNameAsync("Ilaha");
 
-//    await _userManager.AddToRoleAsync(appUser, "Member");
+//    await _userManager.AddToRoleAsync(appUser, "Admin");
 //    return Ok();
 
 //}
+
+
