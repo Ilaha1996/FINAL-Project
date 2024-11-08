@@ -1,4 +1,7 @@
-﻿<div class="breadcumb-wrapper" data-bg-src="assets/img/breadcumb/breadcumb-bg-3.jpg">
+﻿@using Web_AppointmentSystem.MVC.ViewModels
+@model AppointmentCreateVM
+
+<div class="breadcumb-wrapper" data-bg-src="assets/img/breadcumb/breadcumb-bg-3.jpg">
     <div class="container z-index-common">
         <div class="breadcumb-content">
             <h1 class="breadcumb-title">Appointment</h1>
@@ -18,30 +21,33 @@
     </div>
     <div class="container">
         <div class="row gx-60">
-            <div class="col-xl-5 mb-40 mb-xl-0 pb-20 pb-xl-0 wow fadeInUp" data-wow-delay="0.2s">
-                <form action="https://html.vecurosoft.com/wellnez/demo/appointment-mail.php" class="form-style2 appointment-form">
+            <div class="col-xl-5 mb-40 mb-xl-0 pb-20 pb-xl-0 wow fadeInUp" data-wow-delay="0.2s">        
+            <form asp-action="Index" asp-controller="Appointment" method="post" >
                     <h2 class="form-title">Book Appointment</h2>
                     <p class="form-label">Today For Free</p>
 
                     <div class="form-group">
-                        <input type="date" name="date" id="date" autocomplete="off" placeholder="Select Date" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")">
+                        <input asp-for="Date" type="date" autocomplete="off" placeholder="Select Date" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="time" name="startTime" id="startTime" class="form-control time-pick" placeholder="Select Start Time" min="09:00" max="18:00">
+                        <input asp-for="StartTime" type="time" class="form-control time-pick" placeholder="Select Start Time" min="09:00" max="18:00" />
+                        <span asp-validation-for="StartTime" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <select name="subject" id="subject">
+                        <select asp-for="ServiceId" class="form-control">
                             <option disabled="disabled" hidden selected="selected">Select Service</option>
-                            <option>Sports Massage</option>
-                            <option>Stone Massage</option>
-                            <option>Head Massage</option>
-                            <option>Facial & Massage</option>
+                            @foreach (var service in Model.Services)
+                            {
+                                <option value="@service.Id">@service.Name</option>
+                            }
                         </select>
+                        <span asp-validation-for="ServiceId" class="text-danger"></span>
                     </div>
                     <div class="form-group"><button class="vs-btn" type="submit">Make Appointment</button></div>
-                    <p class="form-messages"></p>
-                </form>
+                    <p class="form-messages text-danger">@ViewBag.Err</p>
+                </form>  
             </div>
             <div class="col-xl-7 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="row">
