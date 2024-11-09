@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Web_AppointmentSystem.MVC.Models;
 
 namespace Web_AppointmentSystem.MVC.Controllers
 {

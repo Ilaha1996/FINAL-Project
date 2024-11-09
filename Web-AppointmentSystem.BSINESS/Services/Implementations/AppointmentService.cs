@@ -20,11 +20,11 @@ public class AppointmentService : IAppointmentService
     }
     public async Task<bool> CreateAsync(AppointmentCreateDto dto)
     {
-        bool isAvailable = await _appointmentRepo.IsTimeSlotAvailableForServiceAsync(dto.ServiceId, dto.TimeSlotId);
+        bool isAvailable = await _appointmentRepo.IsDateTimeAvailableForServiceAsync(dto.ServiceId, dto.Date, dto.StartTime);
 
         if (!isAvailable)
         {
-            throw new Exception("The selected time slot is already booked for this service.");
+            throw new Exception("The selected date and time are already booked for this service.");
         }
 
         Appointment appointment = _mapper.Map<Appointment>(dto);

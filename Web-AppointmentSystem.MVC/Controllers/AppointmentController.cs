@@ -4,7 +4,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.ServiceVM;
-using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.TimeSlotVM;
 using Web_AppointmentSystem.MVC.ViewModels;
 
 namespace Web_AppointmentSystem.MVC.Controllers
@@ -12,10 +11,12 @@ namespace Web_AppointmentSystem.MVC.Controllers
     public class AppointmentController : Controller
     {
         private readonly RestClient _restClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AppointmentController()
+        public AppointmentController(IHttpContextAccessor httpContextAccessor)
         {
             _restClient = new RestClient("https://localhost:7197/api");
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -24,23 +25,25 @@ namespace Web_AppointmentSystem.MVC.Controllers
             var serviceRequest = new RestRequest("services", Method.Get);
             var serviceResponse = await _restClient.ExecuteAsync<ApiResponseMessage<List<ServiceGetVM>>>(serviceRequest);
 
-            if (!serviceResponse.IsSuccessful || serviceResponse.Data?.Data == null)
-            {
-                ViewBag.Err = serviceResponse.Data?.ErrorMessage ?? "An error occurred while retrieving services.";
-                return View();
-            }
+            List<ServiceGetVM> services = serviceResponse.IsSuccessful && serviceResponse.Data?.Data != null
+                ? serviceResponse.Data.Data
+                : new List<ServiceGetVM>();
 
-            var services = serviceResponse.Data.Data;
-
-            var token = HttpContext.Request.Headers["token"].ToString();
-
+            var token = _httpContextAccessor.HttpContext.Request.Cookies["token"];
             string userId = null;
+
             if (!string.IsNullOrEmpty(token))
             {
-                var handler = new JwtSecurityTokenHandler();
-                var jwtToken = handler.ReadJwtToken(token);
-
-                userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                try
+                {
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(token);
+                    userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Token parsing error: " + ex.Message);
+                }
             }
 
             var availableTimeSlots = GenerateAvailableTimeSlots();
@@ -55,55 +58,61 @@ namespace Web_AppointmentSystem.MVC.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Index(AppointmentCreateVM model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    var serviceRequest = new RestRequest("services", Method.Get);
-            //    var serviceResponse = await _restClient.ExecuteAsync<ApiResponseMessage<List<ServiceGetVM>>>(serviceRequest);
+            var serviceRequest = new RestRequest("services", Method.Get);
+            var serviceResponse = await _restClient.ExecuteAsync<ApiResponseMessage<List<ServiceGetVM>>>(serviceRequest);
 
-            //    if (!serviceResponse.IsSuccessful || serviceResponse.Data?.Data == null)
-            //    {
-            //        ViewBag.Err = serviceResponse.Data?.ErrorMessage ?? "An error occurred while retrieving services.";
-            //        return View(model);
-            //    }
+            model.Services = serviceResponse.IsSuccessful && serviceResponse.Data?.Data != null
+                ? serviceResponse.Data.Data
+                : new List<ServiceGetVM>();
 
-            //    model.Services = serviceResponse.Data.Data;
-            //    model.AvailableTimeSlots = GenerateAvailableTimeSlots();
-            //    return View(model);
-            //}
+            var token = _httpContextAccessor.HttpContext.Request.Cookies["token"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                try
+                {
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(token);
+                    model.UserId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Token parsing error: " + ex.Message);
+                }
+            }
+
+            model.AvailableTimeSlots = GenerateAvailableTimeSlots();
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             var appointmentRequest = new RestRequest("appointments", Method.Post);
-            appointmentRequest.AddJsonBody(new
-            {
-                ServiceId = model.ServiceId,
-                UserId = model.UserId,
-                Date = model.Date,
-                StartTime = model.StartTime
-            });
+            appointmentRequest.AddParameter("ServiceId", model.ServiceId);
+            appointmentRequest.AddParameter("UserId", model.UserId);
+            appointmentRequest.AddParameter("Notes", model.Notes);
+            appointmentRequest.AddParameter("Date", model.Date.ToString("yyyy-MM-dd")); 
+            appointmentRequest.AddParameter("StartTime", model.StartTime.ToString(@"hh\:mm")); 
 
             var appointmentResponse = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(appointmentRequest);
 
             if (!appointmentResponse.IsSuccessful)
             {
-                ViewBag.Err = appointmentResponse.Data?.ErrorMessage ?? "An error occurred while creating the appointment.";
-
-                var serviceRequest = new RestRequest("services", Method.Get);
-                var serviceResponse = await _restClient.ExecuteAsync<ApiResponseMessage<List<ServiceGetVM>>>(serviceRequest);
-                model.Services = serviceResponse.Data?.Data;
-                model.AvailableTimeSlots = GenerateAvailableTimeSlots();
-
+                var errorMessage = appointmentResponse?.Data?.ErrorMessage ?? "An error occurred while creating the appointment.";
+                ModelState.AddModelError("", errorMessage);
                 return View(model);
             }
 
-            return RedirectToAction("Index", "Appointment");
-        }    
+            return RedirectToAction("Index", "MyAppointment");
+        }
 
-        private List<TimeSlotCreateVM> GenerateAvailableTimeSlots()
+
+        private List<(DateTime Date, TimeSpan StartTime)> GenerateAvailableTimeSlots()
         {
-            var availableTimeSlots = new List<TimeSlotCreateVM>();
+            var availableTimeSlots = new List<(DateTime Date, TimeSpan StartTime)>();
             var startTime = new TimeSpan(9, 0, 0);
             var endTime = new TimeSpan(18, 0, 0);
             var totalDays = 30;
@@ -114,19 +123,11 @@ namespace Web_AppointmentSystem.MVC.Controllers
 
                 for (var time = startTime; time < endTime; time = time.Add(new TimeSpan(1, 0, 0)))
                 {
-                    availableTimeSlots.Add(new TimeSlotCreateVM
-                    {
-                        Date = date,
-                        StartTime = time,
-                        IsAvailable = true,
-                        IsDeleted = false
-                    });
+                    availableTimeSlots.Add((Date: date, StartTime: time));
                 }
             }
 
             return availableTimeSlots;
         }
-
     }
-
 }

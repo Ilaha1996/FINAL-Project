@@ -11,7 +11,6 @@ public class AppDbContext : IdentityDbContext
 
     public DbSet<Service> Services { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
-    public DbSet<TimeSlot> TimeSlots { get; set; }
     public DbSet<AppUser> Users { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<ServiceImage> ServiceImages { get; set; }

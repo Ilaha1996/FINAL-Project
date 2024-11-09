@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Web.AppointmentSystem.DATA.DAL;
+using Web.AppointmentSystem.DATA.Repositories;
 using Web.AppointmentSystem.DATA.Repostories;
 using Web_AppointmentSystem.CORE.Repostories;
 
@@ -13,7 +14,6 @@ public static class ServiceRegistration
     {
         services.AddScoped<IServiceRepo, ServiceRepo>();
         services.AddScoped<IAppointmentRepo, AppointmentRepo>();
-        services.AddScoped<ITimeSlotRepo, TimeSlotRepo>();
         services.AddScoped<IReviewRepo, ReviewRepo>();
 
         services.AddDbContext<AppDbContext>(opt =>

@@ -240,6 +240,9 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -250,8 +253,8 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeSlotId")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -262,11 +265,10 @@ namespace Web.AppointmentSystem.DATA.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ServiceId");
-
-                    b.HasIndex("TimeSlotId");
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("ServiceId", "Date", "StartTime")
+                        .IsUnique();
 
                     b.ToTable("Appointments");
                 });
@@ -375,40 +377,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.ToTable("ServiceImages");
                 });
 
-            modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.TimeSlot", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Date", "StartTime")
-                        .IsUnique();
-
-                    b.ToTable("TimeSlots");
-                });
-
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.AppUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -479,12 +447,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Web_AppointmentSystem.CORE.Entities.TimeSlot", "TimeSlot")
-                        .WithMany("Appointments")
-                        .HasForeignKey("TimeSlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Web_AppointmentSystem.CORE.Entities.AppUser", "User")
                         .WithMany("Appointments")
                         .HasForeignKey("UserId")
@@ -492,8 +454,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                         .IsRequired();
 
                     b.Navigation("Service");
-
-                    b.Navigation("TimeSlot");
 
                     b.Navigation("User");
                 });
@@ -530,11 +490,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("ServiceImages");
-                });
-
-            modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.TimeSlot", b =>
-                {
-                    b.Navigation("Appointments");
                 });
 
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.AppUser", b =>

@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Web_AppointmentSystem.API.ApiResponse;
 using Web_AppointmentSystem.BUSINESS.DTOs.AppointmentDTOs;
-using Web_AppointmentSystem.BUSINESS.DTOs.ReviewDTOs;
 using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
 using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
 
@@ -23,7 +21,7 @@ namespace Web_AppointmentSystem.API.Controllers
         {
             return Ok(new ApiResponse<ICollection<AppointmentGetDto>>
             {
-                Data = await _appointmentService.GetByExpressionAsync(null, true,"Service","TimeSlot","User"),
+                Data = await _appointmentService.GetByExpressionAsync(null, true,"Service","User"),
                 StatusCode = StatusCodes.Status200OK,
                 PropertyName = null,
                 ErrorMessage = string.Empty,
@@ -59,7 +57,6 @@ namespace Web_AppointmentSystem.API.Controllers
                 });
             }
         }
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

@@ -13,7 +13,6 @@ public static class ServiceRegistration
         services.AddScoped<IServiceService, ServiceService>();
         services.AddScoped<IAppointmentService, AppointmentService>();
         services.AddScoped<IReviewService, ReviewService>();
-        services.AddScoped<ITimeSlotService, TimeSlotService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IEmailService, EmailService>();
     }
