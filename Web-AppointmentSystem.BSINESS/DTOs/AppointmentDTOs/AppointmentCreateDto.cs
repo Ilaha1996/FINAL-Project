@@ -2,7 +2,7 @@
 
 namespace Web_AppointmentSystem.BUSINESS.DTOs.AppointmentDTOs;
 
-public record AppointmentCreateDto(string UserId, int ServiceId, DateTime Date, TimeSpan StartTime, string? Notes, bool IsDeleted);
+public record AppointmentCreateDto(string UserId, int ServiceId, DateTime Date, TimeSpan StartTime, string? Notes, bool IsDeleted = false);
 
 public class AppointmentCreateDtoValidator : AbstractValidator<AppointmentCreateDto>
 {

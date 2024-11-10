@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\USER\\Desktop\\FInal Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|c:\\users\\user\\desktop\\final project\\web-appointmentsystem.mvc\\views\\myappointment\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|solutionrelative:web-appointmentsystem.mvc\\views\\myappointment\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|c:\\users\\user\\desktop\\final project\\web-appointmentsystem.mvc\\views\\appointment\\myappointment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|solutionrelative:web-appointmentsystem.mvc\\views\\appointment\\myappointment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|c:\\users\\user\\desktop\\final project\\web-appointmentsystem.mvc\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -13,10 +13,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|c:\\users\\user\\desktop\\final project\\web-appointmentsystem.mvc\\views\\appointment\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|solutionrelative:web-appointmentsystem.mvc\\views\\appointment\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|c:\\users\\user\\desktop\\final project\\web-appointmentsystem.mvc\\viewmodels\\appointmentcreatevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AECCCA0C-4C68-4EB2-B563-B7C084821FA5}|Web-AppointmentSystem.MVC\\Web-AppointmentSystem.MVC.csproj|solutionrelative:web-appointmentsystem.mvc\\viewmodels\\appointmentcreatevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,14 +31,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Views\\MyAppointment\\Index.cshtml",
-              "RelativeDocumentMoniker": "Web-AppointmentSystem.MVC\\Views\\MyAppointment\\Index.cshtml",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Views\\MyAppointment\\Index.cshtml",
-              "RelativeToolTip": "Web-AppointmentSystem.MVC\\Views\\MyAppointment\\Index.cshtml",
-              "ViewState": "AQIAABIAAAAAAAAAAAAAABMAAAAlAAAA",
+              "Title": "MyAppointment.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Views\\Appointment\\MyAppointment.cshtml",
+              "RelativeDocumentMoniker": "Web-AppointmentSystem.MVC\\Views\\Appointment\\MyAppointment.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Views\\Appointment\\MyAppointment.cshtml",
+              "RelativeToolTip": "Web-AppointmentSystem.MVC\\Views\\Appointment\\MyAppointment.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-09T19:58:49.387Z",
+              "WhenOpened": "2024-11-10T20:00:15.35Z",
               "EditorCaption": ""
             },
             {
@@ -53,22 +49,9 @@
               "RelativeDocumentMoniker": "Web-AppointmentSystem.MVC\\Controllers\\AppointmentController.cs",
               "ToolTip": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Controllers\\AppointmentController.cs",
               "RelativeToolTip": "Web-AppointmentSystem.MVC\\Controllers\\AppointmentController.cs",
-              "ViewState": "AQIAAFoAAAAAAAAAAAAAAGwAAAA7AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIYAAABaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-04T17:35:01.155Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AppointmentCreateVM.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\ViewModels\\AppointmentCreateVM.cs",
-              "RelativeDocumentMoniker": "Web-AppointmentSystem.MVC\\ViewModels\\AppointmentCreateVM.cs",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\ViewModels\\AppointmentCreateVM.cs",
-              "RelativeToolTip": "Web-AppointmentSystem.MVC\\ViewModels\\AppointmentCreateVM.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-09T15:16:28.519Z",
               "EditorCaption": ""
             },
             {
@@ -79,10 +62,9 @@
               "RelativeDocumentMoniker": "Web-AppointmentSystem.MVC\\Views\\Appointment\\Index.cshtml",
               "ToolTip": "C:\\Users\\USER\\Desktop\\FInal Project\\Web-AppointmentSystem.MVC\\Views\\Appointment\\Index.cshtml",
               "RelativeToolTip": "Web-AppointmentSystem.MVC\\Views\\Appointment\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACsAAAAyAAAA",
+              "ViewState": "AQIAACcAAAAAAAAAAAAAACsAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-07T16:41:21.738Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-07T16:41:21.738Z"
             }
           ]
         }

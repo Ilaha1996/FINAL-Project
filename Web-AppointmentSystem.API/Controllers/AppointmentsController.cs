@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Web_AppointmentSystem.API.ApiResponse;
 using Web_AppointmentSystem.BUSINESS.DTOs.AppointmentDTOs;
 using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
@@ -26,6 +29,40 @@ namespace Web_AppointmentSystem.API.Controllers
                 PropertyName = null,
                 ErrorMessage = string.Empty,
             });
+        }
+
+        [HttpGet("userAppointments")]
+        [Authorize]
+        public async Task<IActionResult> GetUserAppointments()
+        {
+            try
+            {
+                var appointments = await _appointmentService.GetUserAppointmentsAsync();
+                return Ok(new ApiResponse<ICollection<AppointmentGetDto>>
+                {
+                    Data = appointments,
+                    StatusCode = StatusCodes.Status200OK,
+                    ErrorMessage = null
+                });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized(new ApiResponse<ICollection<AppointmentGetDto>>
+                {
+                    StatusCode = StatusCodes.Status401Unauthorized,
+                    ErrorMessage = "User is not authenticated.",
+                    Data = null
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<ICollection<AppointmentGetDto>>
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
         }
 
         [HttpPost]

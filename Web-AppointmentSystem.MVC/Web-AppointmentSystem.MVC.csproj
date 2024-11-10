@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Appointment\MyAppointment.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ViewComponents\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
@@ -20,6 +24,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Web-AppointmentSystem.BSINESS\Web-AppointmentSystem.BUSINESS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Appointment\MyAppointment.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Appointment\MyAppointment.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Appointment\MyAppointment.cshtml" />
   </ItemGroup>
 
 </Project>

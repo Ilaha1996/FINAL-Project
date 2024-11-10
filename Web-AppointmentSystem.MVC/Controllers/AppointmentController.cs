@@ -3,6 +3,7 @@ using RestSharp;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
+using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.AppointmentVM;
 using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.ServiceVM;
 using Web_AppointmentSystem.MVC.ViewModels;
 
@@ -109,7 +110,6 @@ namespace Web_AppointmentSystem.MVC.Controllers
             return RedirectToAction("Index", "MyAppointment");
         }
 
-
         private List<(DateTime Date, TimeSpan StartTime)> GenerateAvailableTimeSlots()
         {
             var availableTimeSlots = new List<(DateTime Date, TimeSpan StartTime)>();
@@ -129,5 +129,20 @@ namespace Web_AppointmentSystem.MVC.Controllers
 
             return availableTimeSlots;
         }
+
+        public async Task<IActionResult> MyAppointment()
+        {
+            var request = new RestRequest("appointments/GetUserAppointments", Method.Get);
+            var response = await _restClient.ExecuteAsync<ApiResponseMessage<List<AppointmentGetVM>>>(request);
+
+            if (!response.IsSuccessful)
+            {
+                ViewBag.Err = response.Data?.ErrorMessage ?? "Error retrieving appointments.";
+                return View();
+            }
+
+            return View(response.Data.Data);
+        }
+
     }
 }

@@ -1,0 +1,38 @@
+﻿@using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.AppointmentVM
+@model List<AppointmentGetVM>
+@{
+    int counter = 0;
+}
+
+<div style="display:flex; justify-content:space-between; align-items:center; padding: 0 530px 0 20px">
+    <h1>Appointments</h1>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">UserFullname</th>
+            <th scope="col">ServiceName</th>
+            <th scope="col">Date</th>
+            <th scope="col">StartTime</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            counter++;
+            <tr>
+                <th scope="row">@counter</th>
+                <td>@book.UserFullname</td>
+                <td>@book.ServiceName</td>
+                <td>@book.Date.ToString("yyyy-MM-dd")</td>
+                <td>@book.StartTime.ToString(@"hh\:mm")</td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

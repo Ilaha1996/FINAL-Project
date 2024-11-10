@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using Web_AppointmentSystem.BUSINESS.DTOs.AppointmentDTOs;
 using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
 using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
@@ -13,10 +15,13 @@ public class AppointmentService : IAppointmentService
 {
     private readonly IAppointmentRepo _appointmentRepo;
     private readonly IMapper _mapper;
-    public AppointmentService(IAppointmentRepo appointmentRepo, IMapper mapper)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public AppointmentService(IAppointmentRepo appointmentRepo, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     {
         _appointmentRepo = appointmentRepo;
         _mapper = mapper;
+        _httpContextAccessor = httpContextAccessor;
     }
     public async Task<bool> CreateAsync(AppointmentCreateDto dto)
     {
@@ -64,6 +69,19 @@ public class AppointmentService : IAppointmentService
 
         ICollection<AppointmentGetDto> dtos = _mapper.Map<ICollection<AppointmentGetDto>>(datas);
         return dtos;
+    }
+
+    public async Task<ICollection<AppointmentGetDto>> GetUserAppointmentsAsync()
+    {
+        var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new UnauthorizedAccessException("User is not authenticated.");
+        }
+
+        var appointments = await _appointmentRepo.GetByExpressionAsync(a => a.UserId == userId).ToListAsync();
+        return _mapper.Map<ICollection<AppointmentGetDto>>(appointments);
     }
 
     public async Task<AppointmentGetDto> GetByIdAsync(int id)
