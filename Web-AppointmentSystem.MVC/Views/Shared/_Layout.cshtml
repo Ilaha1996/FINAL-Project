@@ -22,13 +22,6 @@
 
 </head>
 <body>
-    <!-- Preloader -->
-    <div class="preloader">
-        <button class="vs-btn preloaderCls">Cancel Preloader</button>
-        <div class="preloader-inner">
-            <div class="loader"></div>
-        </div>
-    </div>
 
     <!-- SVG Hidden Path -->
     <svg viewBox="0 0 150 150" class="svg-hidden">
@@ -169,7 +162,19 @@
                         <div class="col-auto">
                             <div class="header-icons">
                                 <button class="searchBoxTggler"><i class="far fa-search"></i></button>
-                                <a href="contact.html" class="vs-btn style2 d-none d-xl-inline-block">Book</a>
+
+                                @{
+                                    if (isAuthenticated)
+                                    {
+                                        <!-- User is authenticated; link directs to MyAppointment page -->
+                                        <a asp-controller="Appointment" asp-action="MyAppointment" class="vs-btn style2 d-none d-xl-inline-block">My Appointments</a>
+                                    }
+                                    else
+                                    {
+                                        <!-- User is not authenticated; clicking the button shows an alert or error message -->
+                                        <a href="javascript:void(0);" onclick="showLoginAlert()" class="vs-btn style2 d-none d-xl-inline-block">My Appointments</a>
+                                    }
+                                }
                                 <button class="bar-btn sideMenuToggler d-none d-xl-inline-block">
                                     <span class="bar"></span>
                                     <span class="bar"></span>
@@ -313,6 +318,11 @@
     <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
     <script src="assets/js/app.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        function showLoginAlert() {
+            alert("You must log in to access your appointments.");
+        }
+    </script>
 </body>
 <!-- Mirrored from html.vecurosoft.com/wellnez/demo/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Oct 2024 05:27:50 GMT -->
 </html>

@@ -132,16 +132,52 @@ namespace Web_AppointmentSystem.MVC.Controllers
 
         public async Task<IActionResult> MyAppointment()
         {
-            var request = new RestRequest("appointments/GetUserAppointments", Method.Get);
+            var token = HttpContext.Request.Cookies["token"];
+            var request = new RestRequest("appointments/userAppointments", Method.Get);
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.AddHeader("Authorization", $"Bearer {token}");
+            }
             var response = await _restClient.ExecuteAsync<ApiResponseMessage<List<AppointmentGetVM>>>(request);
 
-            if (!response.IsSuccessful)
+            if (!response.IsSuccessful || response.Data?.Data == null)
             {
                 ViewBag.Err = response.Data?.ErrorMessage ?? "Error retrieving appointments.";
-                return View();
+                return View(new List<AppointmentGetVM>()); 
             }
 
             return View(response.Data.Data);
+        }
+        public async Task<IActionResult> CancelAppointment(int id, DateTime appointmentDate)
+        {
+            if (appointmentDate < DateTime.Now.Date)
+            {
+                TempData["Err"] = "You cannot cancel an appointment that is in the past.";
+                return RedirectToAction("MyAppointment");
+            }
+
+            if (appointmentDate.Date == DateTime.Now.Date)
+            {
+                TempData["Err"] = "You cannot cancel an appointment on the day of the appointment.";
+                return RedirectToAction("MyAppointment");
+            }
+
+            if ((appointmentDate - DateTime.Now).TotalDays < 1)
+            {
+                TempData["Err"] = "Appointments can only be cancelled at least one day in advance.";
+                return RedirectToAction("MyAppointment");
+            }
+
+            var deleteRequest = new RestRequest($"appointments/{id}", Method.Delete);
+            var deleteResponse = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(deleteRequest);
+
+            if (!deleteResponse.IsSuccessful)
+            {
+                TempData["Err"] = deleteResponse.Data?.ErrorMessage ?? "Error cancelling appointment.";
+                return RedirectToAction("MyAppointment");
+            }
+
+            return RedirectToAction("MyAppointment");
         }
 
     }

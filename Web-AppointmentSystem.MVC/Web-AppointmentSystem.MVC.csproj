@@ -8,15 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Appointment\MyAppointment.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewComponents\" />
-    <Folder Include="Utilities\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.2" />
@@ -24,18 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Web-AppointmentSystem.BSINESS\Web-AppointmentSystem.BUSINESS.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Appointment\MyAppointment.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Appointment\MyAppointment.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Appointment\MyAppointment.cshtml" />
   </ItemGroup>
 
 </Project>
