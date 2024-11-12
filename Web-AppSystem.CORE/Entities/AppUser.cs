@@ -7,4 +7,5 @@ public class AppUser : IdentityUser
 
     // Navigation properties
     public ICollection<Appointment>? Appointments { get; set; }
+    public ICollection<Review>? Reviews { get; set; }
 }

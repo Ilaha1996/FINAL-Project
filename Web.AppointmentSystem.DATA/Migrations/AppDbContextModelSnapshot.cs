@@ -281,9 +281,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -301,9 +298,13 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -460,13 +461,13 @@ namespace Web.AppointmentSystem.DATA.Migrations
 
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.Review", b =>
                 {
-                    b.HasOne("Web_AppointmentSystem.CORE.Entities.Appointment", "Appointment")
+                    b.HasOne("Web_AppointmentSystem.CORE.Entities.AppUser", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("AppointmentId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Appointment");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.ServiceImage", b =>
@@ -480,11 +481,6 @@ namespace Web.AppointmentSystem.DATA.Migrations
                     b.Navigation("Service");
                 });
 
-            modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.Appointment", b =>
-                {
-                    b.Navigation("Reviews");
-                });
-
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.Service", b =>
                 {
                     b.Navigation("Appointments");
@@ -495,6 +491,8 @@ namespace Web.AppointmentSystem.DATA.Migrations
             modelBuilder.Entity("Web_AppointmentSystem.CORE.Entities.AppUser", b =>
                 {
                     b.Navigation("Appointments");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

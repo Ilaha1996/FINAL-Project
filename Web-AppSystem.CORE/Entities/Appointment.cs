@@ -11,5 +11,4 @@ public class Appointment : BaseEntity
     // Navigation properties
     public AppUser User { get; set; }
     public Service Service { get; set; }
-    public ICollection<Review>? Reviews { get; set; }
 }

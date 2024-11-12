@@ -2,7 +2,6 @@
 using RestSharp;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.ServiceVM;
-using Web_AppointmentSystem.MVC.ViewModels;
 
 namespace Web_AppointmentSystem.MVC.Controllers
 {

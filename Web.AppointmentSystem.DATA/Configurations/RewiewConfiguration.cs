@@ -15,9 +15,9 @@ namespace Web_AppointmentSystem.DATA.Configurations
                    .IsRequired()
                    .HasMaxLength(1000); 
 
-            builder.HasOne(x => x.Appointment)
+            builder.HasOne(x => x.User)
                    .WithMany(a => a.Reviews)  
-                   .HasForeignKey(x => x.AppointmentId)
+                   .HasForeignKey(x => x.UserId)
                    .OnDelete(DeleteBehavior.Cascade); 
 
         }
