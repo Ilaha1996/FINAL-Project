@@ -11,6 +11,6 @@ public interface IAppointmentService
     Task UpdateAsync(int? id, AppointmentUpdateDto dto);
     Task<AppointmentGetDto> GetByIdAsync(int id);
     Task<ICollection<AppointmentGetDto>> GetByExpressionAsync(Expression<Func<Appointment, bool>>? expression = null, bool asNoTracking = false, params string[] includes);
-    Task<ICollection<AppointmentGetDto>> GetUserAppointmentsAsync();
+    Task<ICollection<AppointmentGetDto>> GetUserAppointmentsAsync(Expression<Func<Appointment, bool>>? expression, bool asNoTracking = false, params string[] includes);
     Task<AppointmentGetDto> GetSingleByExpressionAsync(Expression<Func<Appointment, bool>>? expression = null, bool asNoTracking = false, params string[] includes);
 }

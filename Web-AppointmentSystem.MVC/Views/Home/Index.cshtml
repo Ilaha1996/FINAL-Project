@@ -1,5 +1,6 @@
 ﻿@using Web_AppointmentSystem.MVC.ViewModels
 @model ReviewPageVM
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <div class="breadcumb-wrapper background-image" style="background-image: url('assets/img/breadcumb/breadcumb-bg-3.jpg');">
     <div class="container z-index-common">
         <div class="breadcumb-content">
@@ -69,30 +70,43 @@
                         }
                         else
                         {
-                            <p>No comments available for this appointment.</p>
+                            <p>No comments available.</p>
                         }
                     </ul>
 
                     <div class="vs-comment-form">
                         <div id="respond" class="comment-respond">
                             <h3 class="blog-inner-title">Leave a Comment</h3>
-                            <form asp-action="Create" method="post">
-                                <div class="row">
-                                    <div class="col-12 form-group">
-                                        <textarea asp-for="ReviewCreateVM.Comment" class="form-control" placeholder="Comment"></textarea>
-                                        <span asp-validation-for="ReviewCreateVM.Comment" class="text-danger"></span>
+                            @{
+                                bool isAuthenticated = HttpContextAccessor.HttpContext.Request.Cookies["token"] != null;
+                            }
+                            @if (isAuthenticated)
+                            {
+                                <form asp-action="Create" method="post">
+                                    <div class="row">
+                                        <div class="col-12 form-group">
+                                            <textarea asp-for="ReviewCreateVM.Comment" class="form-control" placeholder="Comment"></textarea>
+                                            <span asp-validation-for="ReviewCreateVM.Comment" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-12 form-group">
+                                            <input asp-for="ReviewCreateVM.Rating" type="number" min="1" max="5" class="form-control" placeholder="Rating (1-5)">
+                                            <span asp-validation-for="ReviewCreateVM.Rating" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-12 form-group">
+                                            <button type="submit" class="vs-btn">Post Comment</button>
+                                        </div>
                                     </div>
-                                    <div class="col-12 form-group">
-                                        <input asp-for="ReviewCreateVM.Rating" type="number" min="1" max="5" class="form-control" placeholder="Rating (1-5)">
-                                        <span asp-validation-for="ReviewCreateVM.Rating" class="text-danger"></span>
-                                    </div>
-                                    <div class="col-12 form-group">
-                                        <button type="submit" class="vs-btn">Post Comment</button>
-                                    </div>
+                                </form>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning">
+                                    You need to <a href="/auth/Login">log in</a> to leave a comment.
                                 </div>
-                            </form>
+                            }
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

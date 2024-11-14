@@ -66,7 +66,7 @@ namespace Web_AppointmentSystem.MVC.Controllers
 
             if (!ModelState.IsValid)
             {
-                return await Index(); 
+                return await Index();
             }
 
             var request = new RestRequest("Reviews", Method.Post);

@@ -1,4 +1,5 @@
 ﻿@using Web_AppointmentSystem.MVC.ViewModels
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @model AppointmentCreateVM
 
 <div class="breadcumb-wrapper" data-bg-src="assets/img/breadcumb/breadcumb-bg-3.jpg">
@@ -22,56 +23,68 @@
     <div class="container">
         <div class="row gx-60">
             <div class="col-xl-5 mb-40 mb-xl-0 pb-20 pb-xl-0 wow fadeInUp" data-wow-delay="0.2s">
-                <form asp-action="Index" asp-controller="Appointment" method="post">
-                    <h2 class="form-title">Book Appointment</h2>
-                    <p class="form-label">Today For Free</p>
+                @{
+                    bool isAuthenticated = HttpContextAccessor.HttpContext.Request.Cookies["token"] != null;
+                }
+                @if (isAuthenticated)
+                {
+                    <form asp-action="Index" asp-controller="Appointment" method="post">
+                        <h2 class="form-title">Book Appointment</h2>
+                        <p class="form-label">Today For Free</p>
 
-                    <!-- Date Selection -->
-                    <div class="form-group">
-                        <label asp-for="Date">Select Date</label>
-                        <input asp-for="Date" type="date" autocomplete="off"
-                               placeholder="Select Date" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")"
-                               class="form-control" />
-                        <span asp-validation-for="Date" class="text-danger"></span>
+                        <!-- Date Selection -->
+                        <div class="form-group">
+                            <label asp-for="Date">Select Date</label>
+                            <input asp-for="Date" type="date" autocomplete="off"
+                                   placeholder="Select Date" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")"
+                                   class="form-control" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+
+                        <!-- Start Time Selection -->
+                        <div class="form-group">
+                            <label asp-for="StartTime">Select Start Time</label>
+                            <input asp-for="StartTime" type="time"
+                                   class="form-control time-pick" placeholder="Select Start Time"
+                                   min="09:00" max="18:00" />
+                            <span asp-validation-for="StartTime" class="text-danger"></span>
+                        </div>
+
+                        <!-- Service Selection -->
+                        <div class="form-group">
+                            <label asp-for="ServiceId">Select Service</label>
+                            <select asp-for="ServiceId" class="form-control">
+                                <option disabled="disabled" hidden selected="selected">Select Service</option>
+                                @foreach (var service in Model.Services)
+                                {
+                                    <option value="@service.Id">@service.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="ServiceId" class="text-danger"></span>
+                        </div>
+
+                        <!-- Additional Notes -->
+                        <div class="form-group">
+                            <label asp-for="Notes">Additional Notes</label>
+                            <textarea asp-for="Notes" class="form-control" placeholder="Enter any additional notes..."></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button class="vs-btn" type="submit">Make Appointment</button>
+                        </div>
+
+                        <!-- Error Message Display -->
+                        <p class="form-messages text-danger">@ViewBag.Err</p>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        You need to <a href="/Account/Login">log in</a> to make an appointment.
                     </div>
-
-                    <!-- Start Time Selection -->
-                    <div class="form-group">
-                        <label asp-for="StartTime">Select Start Time</label>
-                        <input asp-for="StartTime" type="time"
-                               class="form-control time-pick" placeholder="Select Start Time"
-                               min="09:00" max="18:00" />
-                        <span asp-validation-for="StartTime" class="text-danger"></span>
-                    </div>
-
-                    <!-- Service Selection -->
-                    <div class="form-group">
-                        <label asp-for="ServiceId">Select Service</label>
-                        <select asp-for="ServiceId" class="form-control">
-                            <option disabled="disabled" hidden selected="selected">Select Service</option>
-                            @foreach (var service in Model.Services)
-                            {
-                                <option value="@service.Id">@service.Name</option>
-                            }
-                        </select>
-                        <span asp-validation-for="ServiceId" class="text-danger"></span>
-                    </div>
-
-                    <!-- Additional Notes -->
-                    <div class="form-group">
-                        <label asp-for="Notes">Additional Notes</label>
-                        <textarea asp-for="Notes" class="form-control" placeholder="Enter any additional notes..."></textarea>
-                        <span asp-validation-for="Notes" class="text-danger"></span>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="form-group">
-                        <button class="vs-btn" type="submit">Make Appointment</button>
-                    </div>
-
-                    <!-- Error Message Display -->
-                    <p class="form-messages text-danger">@ViewBag.Err</p>
-                </form>
+                }
 
             </div>
             <div class="col-xl-7 wow fadeInUp" data-wow-delay="0.3s">

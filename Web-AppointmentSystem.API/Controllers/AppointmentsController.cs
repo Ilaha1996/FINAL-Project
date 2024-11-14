@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using Web_AppointmentSystem.API.ApiResponse;
 using Web_AppointmentSystem.BUSINESS.DTOs.AppointmentDTOs;
 using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
 using Web_AppointmentSystem.BUSINESS.Services.Interfaces;
+using Web_AppointmentSystem.CORE.Entities;
 
 namespace Web_AppointmentSystem.API.Controllers
 {
@@ -24,7 +26,7 @@ namespace Web_AppointmentSystem.API.Controllers
         {
             return Ok(new ApiResponse<ICollection<AppointmentGetDto>>
             {
-                Data = await _appointmentService.GetByExpressionAsync(null, true,"Service","AppUser"),
+                Data = await _appointmentService.GetByExpressionAsync(null, true,"Service","User"),
                 StatusCode = StatusCodes.Status200OK,
                 PropertyName = null,
                 ErrorMessage = string.Empty,
@@ -37,7 +39,8 @@ namespace Web_AppointmentSystem.API.Controllers
         {
             try
             {
-                var appointments = await _appointmentService.GetUserAppointmentsAsync();
+                var appointments = await _appointmentService.GetUserAppointmentsAsync(null, true, "Service", "User");
+
                 return Ok(new ApiResponse<ICollection<AppointmentGetDto>>
                 {
                     Data = appointments,
@@ -54,6 +57,15 @@ namespace Web_AppointmentSystem.API.Controllers
                     Data = null
                 });
             }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new ApiResponse<ICollection<AppointmentGetDto>>
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                    ErrorMessage = ex.Message,
+                    Data = null
+                });
+            }
             catch (Exception ex)
             {
                 return BadRequest(new ApiResponse<ICollection<AppointmentGetDto>>
@@ -64,6 +76,7 @@ namespace Web_AppointmentSystem.API.Controllers
                 });
             }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AppointmentCreateDto dto)

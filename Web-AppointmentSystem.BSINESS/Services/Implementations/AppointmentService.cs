@@ -71,7 +71,7 @@ public class AppointmentService : IAppointmentService
         return dtos;
     }
 
-    public async Task<ICollection<AppointmentGetDto>> GetUserAppointmentsAsync()
+    public async Task<ICollection<AppointmentGetDto>> GetUserAppointmentsAsync(Expression<Func<Appointment, bool>>? expression, bool asNoTracking = false, params string[] includes)
     {
         var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -80,7 +80,22 @@ public class AppointmentService : IAppointmentService
             throw new UnauthorizedAccessException("User is not authenticated.");
         }
 
-        var appointments = await _appointmentRepo.GetByExpressionAsync(a => a.UserId == userId).ToListAsync();
+        IQueryable<Appointment> query = _appointmentRepo.GetByExpressionAsync(expression, asNoTracking);
+
+        if (includes != null && includes.Length > 0)
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        query = query.Where(a => a.UserId == userId);
+
+        var appointments = await query.ToListAsync();
+
+        if (appointments.Count == 0) throw new EntityNotFoundException("No appointments found for the user.");
+
         return _mapper.Map<ICollection<AppointmentGetDto>>(appointments);
     }
 

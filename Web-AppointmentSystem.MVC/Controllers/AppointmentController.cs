@@ -35,16 +35,10 @@ namespace Web_AppointmentSystem.MVC.Controllers
 
             if (!string.IsNullOrEmpty(token))
             {
-                try
-                {
-                    var handler = new JwtSecurityTokenHandler();
-                    var jwtToken = handler.ReadJwtToken(token);
-                    userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Token parsing error: " + ex.Message);
-                }
+              var handler = new JwtSecurityTokenHandler();
+              var jwtToken = handler.ReadJwtToken(token);
+              userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;                   
+                
             }
 
             var availableTimeSlots = GenerateAvailableTimeSlots();
@@ -53,7 +47,7 @@ namespace Web_AppointmentSystem.MVC.Controllers
             {
                 UserId = userId,
                 Services = services,
-                AvailableTimeSlots = availableTimeSlots
+                AvailableTimeSlots = availableTimeSlots,
             };
 
             return View(model);
@@ -72,16 +66,10 @@ namespace Web_AppointmentSystem.MVC.Controllers
             var token = _httpContextAccessor.HttpContext.Request.Cookies["token"];
             if (!string.IsNullOrEmpty(token))
             {
-                try
-                {
-                    var handler = new JwtSecurityTokenHandler();
-                    var jwtToken = handler.ReadJwtToken(token);
-                    model.UserId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Token parsing error: " + ex.Message);
-                }
+              var handler = new JwtSecurityTokenHandler();
+              var jwtToken = handler.ReadJwtToken(token);
+              model.UserId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;                
+                
             }
 
             model.AvailableTimeSlots = GenerateAvailableTimeSlots();
@@ -92,11 +80,7 @@ namespace Web_AppointmentSystem.MVC.Controllers
             }
 
             var appointmentRequest = new RestRequest("appointments", Method.Post);
-            appointmentRequest.AddParameter("ServiceId", model.ServiceId);
-            appointmentRequest.AddParameter("UserId", model.UserId);
-            appointmentRequest.AddParameter("Notes", model.Notes);
-            appointmentRequest.AddParameter("Date", model.Date.ToString("yyyy-MM-dd")); 
-            appointmentRequest.AddParameter("StartTime", model.StartTime.ToString(@"hh\:mm")); 
+            appointmentRequest.AddJsonBody(model);
 
             var appointmentResponse = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(appointmentRequest);
 
@@ -107,7 +91,7 @@ namespace Web_AppointmentSystem.MVC.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Index", "MyAppointment");
+            return RedirectToAction("MyAppointment", "Appointment");
         }
 
         private List<(DateTime Date, TimeSpan StartTime)> GenerateAvailableTimeSlots()

@@ -21,7 +21,7 @@ namespace Web_AppointmentSystem.API.Controllers
         {
             return Ok(new ApiResponse<ICollection<ReviewGetDto>>
             {
-                Data = await _reviewService.GetByExpressionAsync(null, true,"AppUser"),
+                Data = await _reviewService.GetByExpressionAsync(null, true,"User"),
                 StatusCode = StatusCodes.Status200OK,
                 PropertyName = null,
                 ErrorMessage = string.Empty,

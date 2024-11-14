@@ -48,7 +48,13 @@ namespace Web_AppointmentSystem.BUSINESS.Services.Implementations
 
         public async Task<ICollection<ReviewGetDto>> GetByExpressionAsync(Expression<Func<Review, bool>>? expression = null, bool asNoTracking = false, params string[] includes)
         {
-            IQueryable<Review> query = _reviewRepo.GetByExpressionAsync(expression, asNoTracking);
+            IQueryable<Review> query = _reviewRepo.Table;
+
+            if (expression != null)
+                query = query.Where(expression);
+
+            if (asNoTracking)
+                query = query.AsNoTracking();
 
             if (includes != null)
             {
@@ -58,12 +64,13 @@ namespace Web_AppointmentSystem.BUSINESS.Services.Implementations
                 }
             }
 
-            var datas = await _reviewRepo.GetByExpressionAsync(expression, asNoTracking, includes).ToListAsync();
+            var datas = await query.ToListAsync(); 
             if (datas == null) throw new EntityNotFoundException();
 
             ICollection<ReviewGetDto> dtos = _mapper.Map<ICollection<ReviewGetDto>>(datas);
             return dtos;
         }
+
 
         public async Task<ReviewGetDto> GetByIdAsync(int id)
         {
