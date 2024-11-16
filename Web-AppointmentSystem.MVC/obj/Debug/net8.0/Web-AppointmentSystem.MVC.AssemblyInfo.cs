@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Web-AppointmentSystem.MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+757bc13f41dd180a9151b159e1f374ca49c57495")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+261e589ce6008924c45c734e00b4b03b8ffea848")]
 [assembly: System.Reflection.AssemblyProductAttribute("Web-AppointmentSystem.MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Web-AppointmentSystem.MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

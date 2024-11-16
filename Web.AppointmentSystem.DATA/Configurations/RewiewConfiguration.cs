@@ -8,9 +8,6 @@ namespace Web_AppointmentSystem.DATA.Configurations
     {
         public void Configure(EntityTypeBuilder<Review> builder)
         {
-            builder.Property(x => x.Rating)
-                   .IsRequired();
-
             builder.Property(x => x.Comment)
                    .IsRequired()
                    .HasMaxLength(1000); 
@@ -19,7 +16,6 @@ namespace Web_AppointmentSystem.DATA.Configurations
                    .WithMany(a => a.Reviews)  
                    .HasForeignKey(x => x.UserId)
                    .OnDelete(DeleteBehavior.Cascade); 
-
         }
     }
 }

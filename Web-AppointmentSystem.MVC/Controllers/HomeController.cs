@@ -5,6 +5,7 @@ using Web_AppointmentSystem.MVC.Areas.Admin.ViewModels.ReviewVM;
 using Web_AppointmentSystem.MVC.APIResponseMessages;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Azure.Core;
 
 namespace Web_AppointmentSystem.MVC.Controllers
 {
@@ -37,7 +38,7 @@ namespace Web_AppointmentSystem.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var request = new RestRequest("Reviews", Method.Get);
+            var request = new RestRequest("reviews", Method.Get);
             var response = await _restClient.ExecuteAsync<ApiResponseMessage<List<ReviewGetVM>>>(request);
 
             if (!response.IsSuccessful || response.Data == null)
@@ -46,9 +47,15 @@ namespace Web_AppointmentSystem.MVC.Controllers
                 return View(new ReviewPageVM()); 
             }
 
+            var UserId = GetUserIdFromToken();
+
             var viewModel = new ReviewPageVM
             {
-                Reviews = response.Data.Data
+                Reviews = response.Data.Data,
+                ReviewCreateVM = new ReviewCreateVM
+                {
+                    UserId = UserId
+                }
             };
 
             return View(viewModel);
@@ -56,69 +63,71 @@ namespace Web_AppointmentSystem.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ReviewCreateVM model)
+        public async Task<IActionResult> Index(ReviewPageVM model)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "You need to log in to write a review.";
-                return RedirectToAction("Index");
-            }
-
             if (!ModelState.IsValid)
             {
-                return await Index();
+                return View(model);
             }
 
-            var request = new RestRequest("Reviews", Method.Post);
-            request.AddJsonBody(model);
-            var response = await _restClient.ExecuteAsync<ApiResponseMessage<ReviewGetVM>>(request);
+            model.ReviewCreateVM.UserId = GetUserIdFromToken();
+
+            var token = HttpContext.Request.Cookies["token"];
+            var request = new RestRequest("reviews", Method.Post);
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.AddHeader("Authorization", $"Bearer {token}");
+            }
+            request.AddJsonBody(model.ReviewCreateVM);
+
+            var response = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(request);
 
             if (!response.IsSuccessful)
             {
-                ViewBag.ErrorMessage = response.Data?.ErrorMessage ?? "Error creating review.";
-                return await Index();
+                ModelState.AddModelError("", response.Data?.ErrorMessage ?? "An error occurred.");
+                return View(model);
             }
 
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
         public async Task<IActionResult> DeleteReview(int id)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "You need to log in to delete a review.";
-                return RedirectToAction("Index");
-            }
+            var userId = GetUserIdFromToken();
 
             var getRequest = new RestRequest($"Reviews/{id}", Method.Get);
             var getResponse = await _restClient.ExecuteAsync<ApiResponseMessage<ReviewGetVM>>(getRequest);
 
-            if (getResponse.IsSuccessful && getResponse.Data != null)
+            if (!getResponse.IsSuccessful || getResponse.Data == null)
             {
-                var review = getResponse.Data.Data;
-                var userId = GetUserIdFromToken();
-
-                if (review.UserId != userId)
-                {
-                    ViewBag.ErrorMessage = "You can only delete your own reviews.";
-                    return await Index();
-                }
-
-                var deleteRequest = new RestRequest($"Reviews/{id}", Method.Delete);
-                var deleteResponse = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(deleteRequest);
-
-                if (!deleteResponse.IsSuccessful)
-                {
-                    ViewBag.ErrorMessage = deleteResponse.Data?.ErrorMessage ?? "Error deleting review.";
-                    return await Index();
-                }
-
+                ViewBag.ErrorMessage = "Review not found.";
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ErrorMessage = "Review not found.";
-            return await Index();
+            var review = getResponse.Data.Data;
+
+            if (review.UserId != userId)
+            {
+                ViewBag.ErrorMessage = "You can only delete your own reviews.";
+                return RedirectToAction("Index");
+            }
+
+            var token = HttpContext.Request.Cookies["token"];
+            var deleteRequest = new RestRequest($"Reviews/{id}", Method.Delete);
+            if (!string.IsNullOrEmpty(token))
+            {
+                deleteRequest.AddHeader("Authorization", $"Bearer {token}");
+            }
+            var deleteResponse = await _restClient.ExecuteAsync<ApiResponseMessage<object>>(deleteRequest);
+
+            if (!deleteResponse.IsSuccessful)
+            {
+                ViewBag.ErrorMessage = deleteResponse.Data?.ErrorMessage ?? "Error deleting review.";
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
         }
+
     }
 }

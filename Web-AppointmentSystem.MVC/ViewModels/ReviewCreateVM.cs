@@ -2,8 +2,10 @@
 {
     public class ReviewCreateVM
     {
-        public string Comment { get; set; }
-        public int Rating { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now; 
+        public string? Comment { get; set; }
+        public string? UserId { get; set; }
+        public DateTime CreatedDate { get; set; } 
+
+        public bool IsDeleted = false;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Web_AppointmentSystem.API.ApiResponse;
 using Web_AppointmentSystem.BUSINESS.DTOs.ReviewDTOs;
 using Web_AppointmentSystem.BUSINESS.Exceptions.CommonExceptions;
@@ -29,6 +30,7 @@ namespace Web_AppointmentSystem.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] ReviewCreateDto dto)
         {
             ReviewGetDto review = null;
@@ -133,6 +135,7 @@ namespace Web_AppointmentSystem.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             try

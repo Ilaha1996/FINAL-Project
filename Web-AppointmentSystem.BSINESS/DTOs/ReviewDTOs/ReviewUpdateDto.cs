@@ -2,14 +2,16 @@
 
 namespace Web_AppointmentSystem.BUSINESS.DTOs.ReviewDTOs;
 
-public record ReviewUpdateDto(string Comment, int Rating, DateTime CreatedDate, bool IsDeleted = false);
+public record ReviewUpdateDto(string Comment, DateTime CreatedDate, string UserId, bool IsDeleted = false);
 
 public class ReviewUpdateDtoValidator : AbstractValidator<ReviewUpdateDto>
 {
     public ReviewUpdateDtoValidator()
     {
-        RuleFor(x => x.Rating)
-            .InclusiveBetween(1, 5).WithMessage("Rating must be between 1 and 5.");
+
+        RuleFor(x => x.UserId)
+         .NotEmpty().WithMessage("UserId cannot be empty")
+         .NotNull().WithMessage("UserId cannot be null");
 
         RuleFor(x => x.Comment)
             .NotEmpty().WithMessage("Comment cannot be empty.")
